@@ -24,7 +24,10 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with valid parameters' do
-      it 'saves a new Answer'
+      it 'saves a new Answer' do
+        expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer) } }
+          .to change(Answer, :count).by(1)
+      end
       it 'redirects to Question\'s `show` view'
     end
 
