@@ -41,7 +41,10 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid parameters' do
-      it 'don\'t saves a new invalid Answer'
+      it 'don\'t saves a new invalid Answer' do
+        expect { post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) } }
+          .to_not change(Answer, :count)
+      end
       it 'reopen the `new` view'
     end
   end
