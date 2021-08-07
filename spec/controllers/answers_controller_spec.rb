@@ -1,9 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
+  let(:question) { create(:question) }
+
   describe 'GET #new - User can open creation form of Answer' do
 
-    it 'opens under question resource'
+    it 'opens under question resource' do
+      expect(get: "questions/#{question.id}/answers/new")
+        .to route_to controller: 'answers', action: 'new', question_id: question.id
+    end
     it 'render `new` form'
 
   end
