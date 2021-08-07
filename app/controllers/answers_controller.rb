@@ -4,8 +4,10 @@ class AnswersController < ApplicationController
   def new; end
 
   def create
-    @question.answers.create(answer_params)
-    redirect_to question_path(@question)
+    @answer = @question.answers.new(answer_params)
+    if @answer.save
+      redirect_to question_path(@question)
+    end
   end
 
   private
