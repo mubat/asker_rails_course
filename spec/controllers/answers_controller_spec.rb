@@ -7,7 +7,7 @@ RSpec.describe AnswersController, type: :controller do
 
     it 'opens under question resource' do
       expect(get: "questions/#{question.id}/answers/new")
-        .to route_to controller: 'answers', action: 'new', question_id: question.id
+        .to route_to controller: 'answers', action: 'new', question_id: question.id.to_s
     end
     it 'render `new` form'
 
