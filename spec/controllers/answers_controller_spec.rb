@@ -18,7 +18,10 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #create - User can create new Answer' do
-    it 'opens under question resource'
+    it 'opens under question resource' do
+      expect(post: "questions/#{question.id}/answers")
+        .to route_to controller: 'answers', action: 'create', question_id: question.id.to_s
+    end
 
     context 'with valid parameters' do
       it 'saves a new Answer'
