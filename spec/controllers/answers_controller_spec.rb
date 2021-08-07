@@ -45,7 +45,10 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) } }
           .to_not change(Answer, :count)
       end
-      it 'reopen the `new` view'
+      it 'reopen the `new` view' do
+        post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
+        expect(response).to render_template :new
+      end
     end
   end
 end
