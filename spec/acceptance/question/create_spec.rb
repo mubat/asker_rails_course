@@ -32,9 +32,11 @@ feature 'User can create question', '
     fill_in 'Password', with: user.password
     click_on 'Log in'
 
+    click_on 'Ask question'
+
     click_on 'Ask'
 
-    expect(page).to have_content "Title can't be blank."
+    expect(page).to have_content "Title can't be blank"
 
   end
 
