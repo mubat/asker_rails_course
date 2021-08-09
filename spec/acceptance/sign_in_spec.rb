@@ -6,7 +6,7 @@ feature 'User sign in', '
   I want to be able to sign in
 ' do
 
-  given(:user) { User.create!(email: 'user@test.com', password: '123123123') }
+  given(:user) { create(:user) }
 
   background { visit new_user_session_path }
 
