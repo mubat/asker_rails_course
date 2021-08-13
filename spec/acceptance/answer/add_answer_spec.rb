@@ -6,6 +6,7 @@ feature "Authorized user can add answer on the question's view", "
   I'd like to be able to add my answer to the question that I see
 " do
 
+  given(:user) { create(:user) }
   given!(:question) { create(:question) }
 
   describe 'Authenticated user' do
