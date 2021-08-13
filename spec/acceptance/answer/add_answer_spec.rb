@@ -9,7 +9,20 @@ feature "Authorized user can add answer on the question's view", "
   given!(:question) { create(:question) }
 
   describe 'Authenticated user' do
-    scenario 'Can add a new answer'
+    background do
+      login(user)
+
+      visit question_path(question)
+    end
+
+    scenario 'Can add a new answer' do
+      fill_in 'Your Answer', with: 'Test answer'
+      click_on 'Answer it'
+
+      expect(current_path).to eq question_path(question)
+      expect(page).to have_content 'Test answer'
+    end
+
     scenario "Can't add an empty answer"
   end
 
