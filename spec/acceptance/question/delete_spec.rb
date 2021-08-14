@@ -28,5 +28,8 @@ feature 'User can destroy his own question', "
   end
 
   scenario 'Unauthenticated user tries to destroy question' do
+    visit question_path(question)
+
+    expect(page).to have_no_link('Delete question')
   end
 end
