@@ -1,7 +1,7 @@
 h1= question.title
 p= question.body
 
--if current_user
+-if question.user == current_user
   = link_to 'Delete question', question, method: :delete
 
 -if question.answers.count.zero?
