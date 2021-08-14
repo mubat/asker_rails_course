@@ -34,6 +34,8 @@ class QuestionsController < ApplicationController
   helper_method :question
 
   def destroy
+    return redirect_to question_path(question) if question.user != current_user
+
     question.destroy
     redirect_to questions_path, notice: 'Your question successfully destroyed.'
   end
