@@ -21,7 +21,7 @@ feature "Authorized user can add answer on the question's view", "
       click_on 'Answer it'
 
       expect(current_path).to eq question_path(question)
-      expect(page).to have_content 'Test answer' # TODO test in progress
+      expect(page).to have_content 'Test answer'
     end
 
     scenario "Can't add an empty answer"

@@ -1,4 +1,8 @@
 h1= question.title
-p= question.body
-= render 'answers/list', answers: @question.answers
+
+-if question.answers.count.zero?
+  div Still no answer here
+-else
+  = render 'answers/list', answers: question.answers
+
 = render 'answers/form', answer: @answer
