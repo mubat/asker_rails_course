@@ -1,5 +1,7 @@
 h1= question.title
 p= question.body
+ddd
+= link_to 'Delete question', question, method: :delete
 
 -if question.answers.count.zero?
   div Still no answer here
