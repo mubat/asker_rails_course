@@ -24,6 +24,9 @@ feature 'User can destroy his own question', "
     end
 
     scenario 'can not destroy not his question' do
+      visit question_path(another_question) # TODO make possible to get another question
+
+      expect(page).to have_no_link('Delete question')
     end
   end
 
