@@ -11,7 +11,16 @@ feature 'User can signup', "
 
   describe 'Unregistered user' do
 
-    scenario 'can signup'
+    scenario 'can signup' do
+      password = Faker::Internet.password(min_length: 8)
+
+      fill_in 'Email', with: Faker::Internet.email
+      fill_in 'Password', with: password
+      fill_in 'Password confirmation', with: password
+
+      click_on 'Sign up'
+      expect(page).to have_content 'Welcome! You have signed up successfully'
+    end
 
     scenario 'can not signup without password'
 
