@@ -42,7 +42,15 @@ feature 'User can signup', "
 
   end
 
-  scenario 'Registered user can not signup'
+  scenario 'Registered user can not signup' do
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
+    fill_in 'Password confirmation', with: user.password
+
+    click_on 'Sign up'
+    expect(page).to have_content 'Email has already been taken'
+    expect { User.count }.to_not change(User, :count)
+  end
 
   scenario 'Authenticated user can not signup again' do
     login(user)
