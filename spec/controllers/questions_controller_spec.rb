@@ -108,16 +108,27 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destory' do
     let!(:question) { create(:question) }
+    let!(:another_question) { create :question } # TODO make possible to get another question
 
     describe 'by authenticated user' do
       before { login(user) }
-      it 'deletes the question' do
-        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+
+      describe 'for own question' do
+        it 'deletes the question' do
+          expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+        end
+
+        it 'redirects to index' do
+          delete :destroy, params: { id: question }
+          expect(response).to redirect_to questions_path
+        end
       end
 
-      it 'redirects to index' do
-        delete :destroy, params: { id: question }
-        expect(response).to redirect_to questions_path
+      describe 'for another`s question' do
+        it 'should not delete' do
+          expect { delete :destroy, params: { id: another_question } }.not_to change(Question, :count)
+          expect(Question).to exist(another_question.id)
+        end
       end
     end
 
