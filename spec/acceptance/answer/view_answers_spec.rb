@@ -18,6 +18,11 @@ feature "User can see answers on the question's view", "
     end
   end
 
-  scenario "Can see label that question doesn't has answers"
+  scenario "Can see label that question doesn't has answers" do
+    visit question_path(question)
+
+    expect(question.answers).to be_empty
+    expect(page).to have_content 'Still no answer here'
+  end
 end
 
