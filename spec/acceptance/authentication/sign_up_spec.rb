@@ -23,14 +23,22 @@ feature 'User can signup', "
     end
 
     scenario 'can not signup without password' do
+      password = Faker::Internet.password(min_length: 8)
+      fill_in 'Password', with: password
+      fill_in 'Password confirmation', with: password
+
+      click_on 'Sign up'
+      expect(page).to have_content "Email can't be blank"
+      expect { User.count }.to_not change(User, :count)
+    end
+
+    scenario 'can not signup without login' do
       fill_in 'Email', with: Faker::Internet.email
 
       click_on 'Sign up'
       expect(page).to have_content "Password can't be blank"
       expect { User.count }.to_not change(User, :count)
     end
-
-    scenario 'can not signup without login'
 
   end
 
