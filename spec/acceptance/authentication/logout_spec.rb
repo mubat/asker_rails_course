@@ -6,7 +6,12 @@ feature 'User can logout', "
   I'd like to be able to logout
 " do
 
+  given(:user) { create :user }
+
   scenario 'Authenticated user can logout' do
+    login(user)
+    click_on 'Log out'
+    expect(page).to have_content 'Signed out successfully.'
   end
 
   scenario 'Unauthenticated user can not logout' do
