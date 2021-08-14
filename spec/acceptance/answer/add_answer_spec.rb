@@ -32,5 +32,11 @@ feature "Authorized user can add answer on the question's view", "
     end
   end
 
-  scenario "Can't add a new answer"
+  scenario "Can't add a new answer" do
+    visit question_path(question)
+    click_on 'Answer it'
+
+    expect(current_path).to eq new_user_session_path
+    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+  end
 end
