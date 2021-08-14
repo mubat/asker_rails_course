@@ -24,11 +24,6 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with valid parameters' do
-      it 'saves a new Answer' do
-        expect { post :create, params: { question_id: question, answer: attributes_for(:answer) } }
-          .to change(Answer, :count).by(1)
-      end
-
       it 'new Answer links to question' do
         expect { post :create, params: { question_id: question, answer: attributes_for(:answer) } }
           .to change(question.answers, :count).by(1)
