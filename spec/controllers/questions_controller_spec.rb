@@ -56,12 +56,12 @@ RSpec.describe QuestionsController, type: :controller do
       end
       it 'redirects to show view' do
         post :create, params: { question: attributes_for(:question) }
-        expect(response).to redirect_to assigns(:question)
+        expect(response).to redirect_to question_path(last_question)
       end
 
       it "should set current user question's owner" do
         post :create, params: { question: attributes_for(:question) }
-        expect(question.user).to eq user
+        expect(last_question.user).to eq user
       end
     end
 
