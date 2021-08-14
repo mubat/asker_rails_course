@@ -7,7 +7,8 @@ feature 'User can destroy his own question', "
 " do
 
   given(:user) { create :user }
-  given(:question) { create :question }
+  given(:question) { create :question, user: user }
+  given(:another_question) { create :question }
 
   describe 'Authenticated user' do
     background { login(user) }
@@ -24,7 +25,7 @@ feature 'User can destroy his own question', "
     end
 
     scenario 'can not destroy not his question' do
-      visit question_path(another_question) # TODO make possible to get another question
+      visit question_path(another_question)
 
       expect(page).to have_no_link('Delete question')
     end
