@@ -114,8 +114,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destory' do
-    let!(:question) { create(:question) }
-    let!(:another_question) { create :question } # TODO make possible to get another question
+    let!(:question) { create(:question, user: user) }
+    let!(:another_question) { create :question }
 
     describe 'by authenticated user' do
       before { login(user) }
