@@ -6,9 +6,21 @@ feature 'User can destroy his own question', "
   I'd like to be able to destroy question created by me
 " do
 
+  given(:user) { create :user }
+  given(:question) { create :question }
+
   describe 'Authenticated user' do
+    background { login(user) }
 
     scenario 'destroys his question' do
+      visit question_path(question)
+      expect(page).to have_content(question.title)
+
+      click_on 'Delete question'
+
+      expect(page).to have_content('Your question successfully destroyed.')
+      expect(page).not_to have_content(question.title)
+      expect(current_path).to eq questions_path
     end
 
     scenario 'can not destroy not his question' do
