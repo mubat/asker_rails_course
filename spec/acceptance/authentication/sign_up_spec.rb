@@ -6,6 +6,9 @@ feature 'User can signup', "
   I'd like to be able signup
 " do
 
+  given(:user) { create :user }
+  background { visit new_user_registration_path }
+
   describe 'Unregistered user' do
 
     scenario 'can signup'
@@ -18,6 +21,12 @@ feature 'User can signup', "
 
   scenario 'Registered user can not signup'
 
-  scenario 'Authenticated user can not signup again'
+  scenario 'Authenticated user can not signup again' do
+    login(user)
+    visit new_user_registration_path
+
+    expect(current_path).to eq root_path
+    expect(page).to have_content 'You are already signed in.'
+  end
 
 end
