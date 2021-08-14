@@ -5,10 +5,15 @@ feature 'User can login', "
   As an unauthenticated user
   I'd like to be able to login
 " do
+  given(:user) { create :user }
+  background { visit new_user_session_path }
 
   describe 'Registered user' do
+    scenario 'can login' do
+      login(user)
 
-    scenario 'can login'
+      expect(page).to have_content 'Signed in successfully.'
+    end
 
     scenario 'can not login with invalid password'
 
