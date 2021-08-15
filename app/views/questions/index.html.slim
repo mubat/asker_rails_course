@@ -1,6 +1,6 @@
 p= link_to 'Ask question', new_question_path
 - if @questions.any?
   div
-    -for question in @questions
+    -@questions.each do |question|
       div= question.title
       div= question.body
