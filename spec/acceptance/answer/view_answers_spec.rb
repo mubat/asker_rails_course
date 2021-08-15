@@ -12,7 +12,7 @@ feature "User can see answers on the question's view", "
   scenario "Can see answers on the question's view" do
     visit question_path(question_with_answers)
 
-    expect(question_with_answers.answers.length).to be > 0
+    expect(question_with_answers.answers.length).to eq(4)
     question_with_answers.answers.each do |answer|
       expect(page).to have_content answer.body
     end
