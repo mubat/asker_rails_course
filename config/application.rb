@@ -27,5 +27,7 @@ module Asker
                        routing_specs: false,
                        request_specs: false
     end
+
+    config.active_model.i18n_customize_full_message = true
   end
 end

@@ -30,8 +30,8 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  helpers:
-    label:
+  activerecord:
+    attributes:
       answer:
-        body: "Your Answer"
+        body: "Answer"
   hello: "Hello world"
