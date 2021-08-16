@@ -64,10 +64,17 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'by other user' do
+      let(:another_user) { create(:user) }
+
+      before { login(another_user) }
+
       it "can't to destroy the answer" do
+        expect { delete :destroy, params: { id: answer, question_id: question }}.not_to change(Answer, :count)
       end
 
       it 'receives 403 responce code' do
+        delete :destroy, params: { id: answer, question_id: question }
+        expect(response.status).to eq(403)
       end
     end
 
