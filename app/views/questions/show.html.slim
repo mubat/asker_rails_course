@@ -10,4 +10,5 @@ p= question.body
   ul
     = render question.answers
 
+= render 'shared/errors', resource: @answer
 = render 'answers/form', answer: @answer

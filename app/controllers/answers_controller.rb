@@ -5,7 +5,8 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params)
 
-    flash[:alert] = "Answer can't be empty" unless @answer.save
+    return render 'questions/show', locals: {question: @answer.question} unless @answer.save
+
     redirect_to question_path(@question)
   end
 
