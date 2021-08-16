@@ -31,7 +31,9 @@ feature "Authenticated user can destroy his own answers on the question's view",
   end
 
   scenario "Unauthenticated user can't destroy answers" do
+    visit question_path(other_question)
 
+    expect(page).not_to have_link 'Delete answer'
   end
 end
 
