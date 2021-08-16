@@ -1,4 +1,5 @@
 -if answer.persisted?
   div
     div= answer.body
-    div= link_to 'Delete answer', [answer.question, answer], method: :delete, remote: true
+    -if current_user && current_user.author_of?(question)
+      div= link_to 'Delete answer', [answer.question, answer], method: :delete, remote: true
