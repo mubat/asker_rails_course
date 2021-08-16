@@ -48,7 +48,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:answer) { create(:answer, question: question) }
+    let!(:answer) { create(:answer, question: question, user: user) }
 
     context 'by author' do
       before { login(user) }
@@ -70,11 +70,6 @@ RSpec.describe AnswersController, type: :controller do
 
       it "can't to destroy the answer" do
         expect { delete :destroy, params: { id: answer, question_id: question }}.not_to change(Answer, :count)
-      end
-
-      it 'receives 403 responce code' do
-        delete :destroy, params: { id: answer, question_id: question }
-        expect(response.status).to eq(403)
       end
     end
 
