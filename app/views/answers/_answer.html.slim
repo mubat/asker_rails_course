@@ -1,1 +1,3 @@
-li= answer.body
+div
+  div= answer.body
+  div= link_to 'Delete answer', [answer.question, answer], method: :delete, remote: true
