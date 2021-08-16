@@ -7,6 +7,7 @@ feature "Authenticated user can destroy his own answers on the question's view",
 " do
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
+  given!(:answer) { create(:answer, question: question, user: user) }
 
   describe "Authenticated user" do
     background do
