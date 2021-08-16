@@ -6,9 +6,9 @@ feature "Authenticated user can destroy his own answers on the question's view",
   I'd like to be able to my answers of the question
 " do
   given(:user) { create(:user) }
-  given(:question) { create(:question, user: user) }
+  given(:question_for_user) { create(:question, user: user) }
   given(:other_question) { create(:question_with_answers) }
-  given!(:answer) { create(:answer, question: question, user: user) }
+  given!(:answer) { create(:answer, question: question_for_user, user: user) }
 
   describe "Authenticated user" do
     background do
@@ -16,10 +16,10 @@ feature "Authenticated user can destroy his own answers on the question's view",
     end
 
     scenario "Can destroy answers" do
-      visit question_path(question)
+      visit question_path(question_for_user)
       click_on 'Delete answer'
 
-      expect(current_path).to eq question_path(question)
+      expect(current_path).to eq question_path(question_for_user)
       expect(page).not_to have_content answer.body
     end
 
