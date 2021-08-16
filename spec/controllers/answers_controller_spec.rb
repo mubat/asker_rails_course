@@ -46,4 +46,25 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+
+    context 'by author' do
+
+      it 'deletes the answer' do
+      end
+
+      it 'renders destroy' do
+      end
+    end
+
+    context 'by other user' do
+      it "can't to destroy the answer" do
+      end
+
+      it 'receives 403 responce code' do
+      end
+    end
+
+  end
 end
