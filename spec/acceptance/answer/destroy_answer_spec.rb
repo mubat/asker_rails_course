@@ -5,10 +5,20 @@ feature "Authenticated user can destroy his own answers on the question's view",
   As an authenticated user
   I'd like to be able to my answers of the question
 " do
+  given(:user) { create(:user) }
+  given(:question) { create(:question, user: user) }
 
   describe "Authenticated user" do
-    scenario "Can destroy answers" do
+    background do
+      login(user)
+    end
 
+    scenario "Can destroy answers" do
+      visit question_path(question)
+      click_on 'Delete answer'
+
+      expect(current_path).to eq question_path(question)
+      expect(page).not_to have_content answer.body
     end
 
     scenario "Can't destroy not his own answer" do
