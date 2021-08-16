@@ -7,6 +7,7 @@ feature "Authenticated user can destroy his own answers on the question's view",
 " do
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
+  given(:other_question) { create(:question_with_answers) }
   given!(:answer) { create(:answer, question: question, user: user) }
 
   describe "Authenticated user" do
@@ -23,7 +24,9 @@ feature "Authenticated user can destroy his own answers on the question's view",
     end
 
     scenario "Can't destroy not his own answer" do
+      visit question_path(other_question)
 
+      expect(page).not_to have_link 'Delete answer'
     end
   end
 
