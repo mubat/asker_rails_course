@@ -21,6 +21,7 @@ feature "Authenticated user can destroy his own answers on the question's view",
 
       expect(current_path).to eq question_path(question_for_user)
       expect(page).not_to have_content answer.body
+      expect(page).to have_content 'Answer successfully deleted'
     end
 
     scenario "Can't destroy not his own answer" do
