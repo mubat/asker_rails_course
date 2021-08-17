@@ -19,6 +19,8 @@ class AnswersController < ApplicationController
 
   private
 
+  helper_method :question, :answer
+
   def answer_params
     params.require(:answer).permit(:body)
   end
