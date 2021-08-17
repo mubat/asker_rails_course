@@ -34,10 +34,14 @@ class QuestionsController < ApplicationController
   helper_method :question
 
   def destroy
-    redirect_to question_path(question) unless current_user.author_of?(question)
+    if current_user.author_of?(question)
+      question.destroy
+      flash[:notice] = 'Your question successfully destroyed.'
+    else
+      flash[:error] = "You don't has permission to delete question"
+    end
 
-    question.destroy
-    redirect_to questions_path, notice: 'Your question successfully destroyed.'
+    redirect_to questions_path
   end
 
   private
