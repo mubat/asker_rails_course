@@ -16,7 +16,7 @@ feature "Authorized user can add answer on the question's view", "
       visit question_path(question)
     end
 
-    scenario 'Can add a new answer' do
+    scenario 'Can add a new answer', js: true do
       fill_in 'Answer', with: 'Test answer'
       click_on 'Answer it'
 

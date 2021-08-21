@@ -15,13 +15,13 @@ RSpec.describe AnswersController, type: :controller do
 
       context 'with valid parameters' do
         it 'new Answer links to question' do
-          expect { post :create, params: { question_id: question, answer: attributes_for(:answer) } }
+          expect { post :create, params: { question_id: question, answer: attributes_for(:answer), format: :js } }
             .to change(question.answers, :count).by(1)
         end
 
         it 'redirects to Question\'s `show` view' do
-          post :create, params: { question_id: question, answer: attributes_for(:answer) }
-          expect(response).to redirect_to assigns(:question)
+          post :create, params: { question_id: question, answer: attributes_for(:answer), format: :js }
+          expect(response).to render_template :create
         end
       end
 

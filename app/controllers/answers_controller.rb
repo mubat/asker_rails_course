@@ -5,7 +5,7 @@ class AnswersController < ApplicationController
     @answer = question.answers.new(answer_params)
     @answer.user = current_user
 
-    redirect_to question if answer.save
+    answer.save
   end
 
   def destroy
