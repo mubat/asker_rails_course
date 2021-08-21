@@ -9,6 +9,6 @@ p= question.body
 -else
   ul
     = render question.answers
-
-= render 'shared/errors', resource: @answer
+.answer-errors
+  = render 'shared/errors', resource: @answer
 = render 'answers/form', answer: @answer
