@@ -27,8 +27,13 @@ RSpec.describe AnswersController, type: :controller do
 
       context 'with invalid parameters' do
         it 'don\'t saves a new invalid Answer' do
-          expect { post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) } }
+          expect { post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }, format: :js }
             .to_not change(Answer, :count)
+        end
+
+        it 'should render question show template' do
+          post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }, format: :js
+          expect(response).to render_template :create
         end
       end
     end
