@@ -5,9 +5,7 @@ class AnswersController < ApplicationController
     @answer = question.answers.new(answer_params)
     @answer.user = current_user
 
-    return render 'questions/show', locals: {question: answer.question} unless answer.save
-
-    redirect_to question_path(question)
+    redirect_to question if answer.save
   end
 
   def destroy
