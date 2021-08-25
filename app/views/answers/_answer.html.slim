@@ -3,3 +3,10 @@
     div= answer.body
     -if current_user&.author_of?(question)
       div= link_to 'Delete answer', [answer.question, answer], method: :delete, remote: true
+    -if user_signed_in?
+      div= link_to 'Edit'
+
+    = form_with model: answer do |f|
+      = f.label :body, 'Your answer'
+      = f.textarea :body
+      = f.submit 'Save'
