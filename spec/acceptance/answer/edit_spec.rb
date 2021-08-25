@@ -16,7 +16,22 @@ feature 'User can edit this answer', "
   end
 
   describe 'Authenticated user' do
-    scenario 'edits an answer'
+    given!(:user) { create(:user) }
+
+    scenario 'edits an answer' do
+      login(user)
+      visit question_path(question)
+
+      click_on 'Edit'
+      within '.answers' do
+        fill_in 'Body', with: 'some test answer'
+        click_on 'Save'
+
+        expect(page).to_not have_content answer.body
+        expect(page).to have_content 'some test answer'
+        expect(page).to_not have_selector 'textarea'
+      end
+    end
     scenario 'edits an answer with errors'
     scenario "tries to edit other user's answer"
   end
