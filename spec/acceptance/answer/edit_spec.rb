@@ -24,7 +24,7 @@ feature 'User can edit this answer', "
 
       click_on 'Edit'
       within '.answers' do
-        fill_in 'Body', with: 'some test answer'
+        fill_in 'Your answer', with: 'some test answer'
         click_on 'Save'
 
         expect(page).to_not have_content answer.body
