@@ -5,7 +5,15 @@ feature 'User can edit this answer', "
   As an author of answer
   I'd like to be able to edit my answer
 " do
-  scenario "Unauthenticated user can't edit answer"
+
+  given!(:question) { create(:question) }
+  given!(:answer) { create(:answer, question: question) }
+
+  scenario "Unauthenticated user can't edit answer" do
+    visit question_path(question)
+
+    expect(page).to_not have_link 'Edit'
+  end
 
   describe 'Authenticated user' do
     scenario 'edits an answer'
