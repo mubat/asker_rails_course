@@ -18,7 +18,7 @@ feature 'User can edit this answer', "
   describe 'Authenticated user' do
     given!(:user) { create(:user) }
 
-    scenario 'edits an answer' do
+    scenario 'edits an answer', js: true do
       login(user)
       visit question_path(question)
 
