@@ -1,5 +1,5 @@
-$(document).ready(function () {
-    $('.edit-answer-link').on('click', function (event) {
+$(document).on('turbolinks:load', function () {
+    $('.answers').on('click', '.edit-answer-link', function (event) {
         event.preventDefault();
         let _this = $(this);
         _this.hide();
