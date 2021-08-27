@@ -1,6 +1,7 @@
 p= link_to 'Ask question', new_question_path
 - if @questions.any?
   div
-    -@questions.each do |question|
-      div= question.title
-      div= question.body
+    - @questions.each do |question|
+      div= link_to question do
+        div= question.title
+      end
