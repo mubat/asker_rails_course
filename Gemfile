@@ -59,6 +59,7 @@ group :test do
   gem 'rails-controller-testing'
   gem 'launchy'
   gem 'faker'
+  gem 'capybara-screenshot'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
