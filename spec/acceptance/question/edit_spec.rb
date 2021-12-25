@@ -12,7 +12,7 @@ feature 'User can edit his own question', "
   describe 'Question creator' do
     scenario "Can edit his question", js:true do 
       login(user)
-      visit question_path(:question)
+      visit question_path(question)
 
       within '.question-data' do
         expect(page).to have_link 'Edit'
