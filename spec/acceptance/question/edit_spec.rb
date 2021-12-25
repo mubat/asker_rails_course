@@ -15,6 +15,8 @@ feature 'User can edit his own question', "
       visit question_path(question)
 
       within '.question-data' do
+        expect(page).to_not have_selector 'form'
+
         click_on 'Edit'
         
         expect(page).to_not have_link 'Edit'
@@ -23,11 +25,11 @@ feature 'User can edit his own question', "
         fill_in 'Body', with: 'new body'
         click_on 'Save'
         
-        expect(page).to_not have_field 'Title'
-        expect(page).to_not have_contect question.title
-        expect(page).to_not have_contect question.body
-        expect(page).to have_contect 'new title'
-        expect(page).to have_contect 'new body'
+        expect(page).to_not have_selector 'form'
+        expect(page).to_not have_content question.title
+        expect(page).to_not have_content question.body
+        expect(page).to have_content 'new title'
+        expect(page).to have_content 'new body'
         expect(page).to have_link 'Edit'
       end
 
