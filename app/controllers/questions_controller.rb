@@ -24,11 +24,18 @@ class QuestionsController < ApplicationController
   def edit; end
 
   def update
-    if question.update(question_params)
-      redirect_to @question
-    else
-      render :edit
+    update_status = question.update(question_params)
+    respond_to do |format|
+      format.html  do 
+        if update_status
+          redirect_to @question
+        else
+          render :edit
+        end
+      end
+      format.js { render :update }
     end
+    
   end
 
   helper_method :question
