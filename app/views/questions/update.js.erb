@@ -1,0 +1,8 @@
+<% if !question.errors.present? %>
+  let questionBlock = $('.question-data');
+  
+  questionBlock.find('h1').text('<%= question.title %>');
+  questionBlock.find('p').text('<%= question.body %>');
+  questionBlock.find('form').addClass('hidden');
+  questionBlock.find('.edit-question').removeClass('hidden');
+<% end %>
