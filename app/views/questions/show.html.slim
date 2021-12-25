@@ -3,6 +3,7 @@ div.question-data
   p= question.body
 
   -if current_user&.author_of?(question)
+    = link_to 'Edit', '#', class: 'edit-question', data: { question_id: question.id }
     = link_to 'Delete question', question, method: :delete
 
 .answers

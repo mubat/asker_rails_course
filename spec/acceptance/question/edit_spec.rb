@@ -15,8 +15,6 @@ feature 'User can edit his own question', "
       visit question_path(question)
 
       within '.question-data' do
-        expect(page).to have_link 'Edit'
-
         click_on 'Edit'
         
         expect(page).to_not have_link 'Edit'
