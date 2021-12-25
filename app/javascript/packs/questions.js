@@ -3,5 +3,6 @@ $(document).on('turbolinks:load', function () {
         event.preventDefault();
         let _this = $(this);
         _this.hide();        
-    });
+        $(`form#form-edit-question`).removeClass('hidden');
+ });
 });
