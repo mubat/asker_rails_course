@@ -1,8 +1,9 @@
-h1= question.title
-p= question.body
+div.question-data
+  h1= question.title
+  p= question.body
 
--if current_user&.author_of?(question)
-  = link_to 'Delete question', question, method: :delete
+  -if current_user&.author_of?(question)
+    = link_to 'Delete question', question, method: :delete
 
 .answers
   -if question.answers.count.zero?
