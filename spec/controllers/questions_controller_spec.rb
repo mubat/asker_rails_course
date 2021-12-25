@@ -96,6 +96,14 @@ RSpec.describe QuestionsController, type: :controller do
         patch :update, params: { id: question, question: attributes_for(:question) }
         expect(response).to redirect_to :question
       end
+
+      it 'allows to update via JS' do 
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
+        question.reload
+
+        expect(question.title).to eq 'new title'
+        expect(question.body).to eq 'new body'
+    end
     end
     context 'with invalid attributes' do
       before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
