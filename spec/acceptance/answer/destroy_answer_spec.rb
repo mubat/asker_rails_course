@@ -15,13 +15,12 @@ feature "Authenticated user can destroy his own answers on the question's view",
       login(user)
     end
 
-    scenario "Can destroy answers" do
+    scenario "Can destroy answers", js:true do
       visit question_path(question_for_user)
       click_on 'Delete answer'
 
       expect(current_path).to eq question_path(question_for_user)
       expect(page).not_to have_content answer.body
-      expect(page).to have_content 'Answer successfully deleted'
     end
 
     scenario "Can't destroy not his own answer" do
