@@ -37,6 +37,17 @@ feature 'User can edit his own question', "
   end
 
   describe 'Other user' do
-    scenario "Can't edit question"
+    given(:other_user) { create(:user) }
+
+    scenario "Can't edit question" do
+      login(other_user)
+      visit question_path(question)
+
+      within '.question-data' do
+        expect(page).to_not have_link 'Edit'
+        expect(page).to_not have_selector 'form'
+      end
+
+    end
   end
 end
