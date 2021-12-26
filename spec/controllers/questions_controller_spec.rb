@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
-  let(:question) { create(:question) }
+  let(:question) { create(:question, user: user) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
@@ -117,6 +117,21 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 're-renders edit view' do
         expect(response).to render_template :edit
+      end
+    end
+
+    context 'other user' do
+      let(:other_user) { create(:user) }
+      before { login(other_user) }
+
+      it "can't edit question" do
+        before_title = question.title
+        before_body = question.body
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
+
+        question.reload
+        expect(question.title).to eq before_title
+        expect(question.body).to eq before_body
       end
     end
   end
