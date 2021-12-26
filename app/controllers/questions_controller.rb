@@ -24,12 +24,13 @@ class QuestionsController < ApplicationController
   def edit; end
 
   def update
-    update_status = question.update(question_params)
+    update_status = current_user.author_of?(question) ? question.update(question_params) : false
     respond_to do |format|
       format.html  do 
         if update_status
           redirect_to @question
         else
+          flash[:error] = "You are not an author of this question" unless current_user.author_of?(question)
           render :edit
         end
       end
