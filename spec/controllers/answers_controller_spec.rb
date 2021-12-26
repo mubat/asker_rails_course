@@ -105,11 +105,6 @@ RSpec.describe AnswersController, type: :controller do
       it 'deletes the answer' do
         expect { delete :destroy, params: { id: answer, question_id: question }, format: :js }.to change(Answer, :count).by(-1)
       end
-
-      it 'renders destroy' do
-        delete :destroy, params: { id: answer, question_id: question }, format: :js
-        expect(response).to redirect_to question_path(question)
-      end
     end
 
     context 'by other user' do
@@ -118,7 +113,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login(another_user) }
 
       it "can't to destroy the answer" do
-        expect { delete :destroy, params: { id: answer, question_id: question } }.not_to change(Answer, :count)
+        expect { delete :destroy, params: { id: answer, question_id: question }, format: :js }.not_to change(Answer, :count)
       end
     end
 
