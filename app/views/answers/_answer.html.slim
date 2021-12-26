@@ -1,13 +1,12 @@
 -if answer.persisted?
-  div
+  div[id="answer-#{answer.id}"]
     div= answer.body
-    -if current_user&.author_of?(question)
     -if current_user&.author_of?(answer)
       div= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
-    -if user_signed_in?
+    -if current_user&.author_of?(answer)
       div= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
 
-    = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-      = f.label :body, 'Your answer'
-      = f.text_area :body
-      = f.submit 'Save'
+      = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+        = f.label :body, 'Your answer'
+        = f.text_area :body
+        = f.submit 'Save'
