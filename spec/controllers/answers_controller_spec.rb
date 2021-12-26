@@ -53,7 +53,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    let!(:answer) { create(:answer, question: question) }
+    let!(:answer) { create(:answer, question: question, user: user) }
 
     describe 'by authenticated user' do
       before { login(user) }
@@ -82,6 +82,16 @@ RSpec.describe AnswersController, type: :controller do
           patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
           expect(response).to render_template :update
         end
+      end
+
+      it 'updates by other user' do
+        other_user = create(:user)
+        login(other_user)
+
+        patch :update, params: { id: answer, answer: {body: 'new body'} }, format: :js
+
+        answer.reload
+        expect(answer.body).to_not eq 'new body'
       end
     end
   end
