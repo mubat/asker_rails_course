@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
   let(:user) { create(:user) }
+  let(:question) { create(:question, user: user) }
 
   describe 'POST #create - User can create new Answer' do
     it 'opens under question resource' do
@@ -112,7 +112,16 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.is_best).to eq true
       end
 
-      it "by other user"
+      it "by not a question's author" do
+        other_user = create(:user)
+        other_answer = create(:answer, question: question, user: other_user, is_best: nil)
+        login(other_user)
+        
+        patch :update, params: { id: other_answer, answer: {is_best: true} }, format: :js
+
+        answer.reload
+        expect(answer.is_best).to be_falsey
+      end
     end
   end
 
