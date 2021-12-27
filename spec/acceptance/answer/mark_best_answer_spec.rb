@@ -33,7 +33,7 @@ feature 'Author of the Question can mark best Answer', "
     scenario 'can mark only one best Answer'
     scenario "can't choose best Answer if not an author" do
       other_user = create(:user)
-      other_question = create(:question, user: user)
+      other_question = create(:question, user: other_user)
       other_answer = create(:answer, question: other_question, user: user, is_best: nil)
 
       visit question_path(other_question)

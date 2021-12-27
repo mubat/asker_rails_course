@@ -2,7 +2,8 @@
   div id="answer-#{answer.id}" class=('answer-best' if answer.is_best)
     div= "Best answer" if answer.is_best
     div= answer.body
-    = link_to 'Make answer best', answer_path(answer, :answer => {:is_best => true}), method: :put, class: 'set-best-answer-link', remote: true unless answer.is_best
+    - if !answer.is_best && current_user&.author_of?(question)
+      = link_to 'Make answer best', answer_path(answer, :answer => {:is_best => true}), method: :put, class: 'set-best-answer-link', remote: true 
     -if current_user&.author_of?(answer)
       div= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
       div= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
