@@ -96,6 +96,13 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     describe 'make answer best' do
+      it "by unauthenticated user" do
+        patch :update, params: { id: answer, answer: {is_best: true} }, format: :js
+
+        answer.reload
+        expect(answer.is_best).to be_nil
+      end
+      
       it "by question's author" do
         login(user)
 
