@@ -53,7 +53,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    let!(:answer) { create(:answer, question: question, user: user) }
+    let!(:answer) { create(:answer, question: question, user: user, is_best: nil) }
 
     describe 'by authenticated user' do
       before { login(user) }
@@ -96,7 +96,15 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     describe 'make answer best' do
-      it "by question's author"
+      it "by question's author" do
+        login(user)
+
+        patch :update, params: { id: answer, answer: {is_best: true} }, format: :js
+
+        answer.reload
+        expect(answer.is_best).to eq true
+      end
+
       it "by other user"
     end
   end
