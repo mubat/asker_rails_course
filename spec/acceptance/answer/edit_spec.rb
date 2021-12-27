@@ -32,7 +32,24 @@ feature 'User can edit this answer', "
         expect(page).to_not have_selector 'textarea'
       end
     end
-    scenario 'edits an answer with errors'
+    
+    scenario 'edits an answer with errors', js: true do
+      login(user)
+      visit question_path(question)
+
+
+      within ".answers #answer-#{answer.id}" do
+        click_on 'Edit'
+        
+        fill_in 'Your answer', with: ''
+        click_on 'Save'
+
+        expect(page).to have_content answer.body
+        expect(page).to have_content "Answer can't be blank"
+        expect(page).to have_selector 'textarea'
+      end
+    end
+
     scenario "tries to edit other user's answer" do
       other_user = create(:user)
       answer_other_user = create(:answer, question: question, user: other_user)
