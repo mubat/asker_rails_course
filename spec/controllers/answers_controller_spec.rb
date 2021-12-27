@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
+  let!(:answer) { create(:answer, question: question, user: user, is_best: nil) }
 
   describe 'POST #create - User can create new Answer' do
     it 'opens under question resource' do
@@ -53,7 +54,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    let!(:answer) { create(:answer, question: question, user: user, is_best: nil) }
 
     describe 'by authenticated user' do
       before { login(user) }
@@ -95,6 +95,32 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
+  end
+
+  describe 'DELETE #destroy' do
+
+    context 'by author' do
+      before { login(user) }
+
+      it 'deletes the answer' do
+        expect { delete :destroy, params: { id: answer, question_id: question }, format: :js }.to change(Answer, :count).by(-1)
+      end
+    end
+
+    context 'by other user' do
+      let(:another_user) { create(:user) }
+
+      before { login(another_user) }
+
+      it "can't to destroy the answer" do
+        expect { delete :destroy, params: { id: answer, question_id: question }, format: :js }.not_to change(Answer, :count)
+      end
+    end
+
+  end
+
+  describe 'PATCH #mark_best' do
+
     describe 'make answer best' do
       it "by unauthenticated user" do
         patch :update, params: { id: answer, answer: {is_best: true} }, format: :js
@@ -123,28 +149,7 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.is_best).to be_falsey
       end
     end
+    
   end
 
-  describe 'DELETE #destroy' do
-    let!(:answer) { create(:answer, question: question, user: user) }
-
-    context 'by author' do
-      before { login(user) }
-
-      it 'deletes the answer' do
-        expect { delete :destroy, params: { id: answer, question_id: question }, format: :js }.to change(Answer, :count).by(-1)
-      end
-    end
-
-    context 'by other user' do
-      let(:another_user) { create(:user) }
-
-      before { login(another_user) }
-
-      it "can't to destroy the answer" do
-        expect { delete :destroy, params: { id: answer, question_id: question }, format: :js }.not_to change(Answer, :count)
-      end
-    end
-
-  end
 end
