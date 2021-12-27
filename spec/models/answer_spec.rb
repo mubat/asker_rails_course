@@ -6,6 +6,8 @@ RSpec.describe Answer, type: :model do
 
   it { should validate_presence_of :body }
  
-  it { should allow_value(nil).for(:is_best) } # Rails validator `validate_inclusion_of` can't check nil. Watch validator description
-  it { should validate_inclusion_of(:is_best).in_array([true, false]) }
+ # Rails validator `validate_inclusion_of` can't check nil. Watch validator description
+  it { should allow_value(nil).for(:is_best) } 
+  it { should allow_value(true).for(:is_best) }
+  it { should allow_value(false).for(:is_best) } 
 end
