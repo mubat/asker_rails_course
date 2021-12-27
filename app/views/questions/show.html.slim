@@ -16,7 +16,7 @@ div.question-data
   -if question.answers.count.zero?
     div.answers__empty Still no answer here
   -else
-    = render question.answers
+    = render question.answers.sort_by_best
 
 .answer-errors
   = render 'shared/errors', resource: @answer
