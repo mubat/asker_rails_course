@@ -9,6 +9,7 @@ feature 'Author of the Question can mark best Answer', "
   given!(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, question: question, user: user, is_best: nil) }
+  given!(:best_answer) { create(:answer, question: question, user: user, is_best: true) }
 
   scenario "Unauthenticated User can't choose best Answer"
 
@@ -32,7 +33,7 @@ feature 'Author of the Question can mark best Answer', "
     end
     
     scenario 'can mark other Answer as best (old best Answer stays regular)', js: true do
-      old_best_answer = create(:answer, question: question, user: user, is_best: true)
+      old_best_answer = best_answer
       visit question_path(question)
 
       expect(find("#answer-#{old_best_answer.id}")).to have_content 'Best answer' 
