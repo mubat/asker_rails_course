@@ -94,6 +94,11 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.body).to_not eq 'new body'
       end
     end
+
+    describe 'make answer best' do
+      it "by question's author"
+      it "by other user"
+    end
   end
 
   describe 'DELETE #destroy' do
