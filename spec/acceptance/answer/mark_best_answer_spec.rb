@@ -18,7 +18,7 @@ feature 'Author of the Question can mark best Answer', "
       visit question_path(question)
 
       within "#answer-#{answer.id}" do
-        click 'Best answer'
+        click_on 'Make answer best'
         answer.reload
 
         expect(page).to have_content 'Best answer'
