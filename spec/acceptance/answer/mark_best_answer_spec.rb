@@ -13,8 +13,9 @@ feature 'Author of the Question can mark best Answer', "
   scenario "Unauthenticated User can't choose best Answer"
 
   describe 'Authenticated user' do
+    background { login(user) }
+
     scenario 'can mark best Answer', js: true do
-      login(user)
       visit question_path(question)
 
       within "#answer-#{answer.id}" do
@@ -30,7 +31,17 @@ feature 'Author of the Question can mark best Answer', "
       end
     end
     scenario 'can mark only one best Answer'
-    scenario "can't choose best Answer if not an author"
+    scenario "can't choose best Answer if not an author" do
+      other_user = create(:user)
+      other_question = create(:question, user: user)
+      other_answer = create(:answer, question: other_question, user: user, is_best: nil)
+
+      visit question_path(other_question)
+
+      within "#answer-#{other_answer.id}" do
+        expect(page).to_not have_text 'Make answer best'
+      end
+    end
   end
 
 end
