@@ -1,5 +1,16 @@
 $('.answer-errors').html('<%= render 'shared/errors', resource: answer %>');
 
+<% if answer.is_best %>
+  window.oldBestAnswer = $('.answer-best');
+  
+  if(oldBestAnswer.attr('id') != 'answer-<%= answer.id %>') {
+    oldBestAnswer.find('.best-mark').text('');
+    oldBestAnswer.find('.set-best-answer-link').removeClass('hidden');
+    oldBestAnswer.removeClass('answer-best');
+
+  }
+<% end %>
+
 <% unless answer.errors.present? %>
   $('#answer-<%= answer.id %>').html('<%= j render @answer %>');
 <% end %>
