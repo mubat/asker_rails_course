@@ -23,6 +23,8 @@ feature 'Author of the Question can mark best Answer', "
         click_on 'Make answer best'
 
         expect(page).to have_text 'Best answer'
+        expect(page).to_not have_text 'Make answer best'
+        
         answer.reload
         expect(answer.is_best).to be_truthy
       end
