@@ -17,11 +17,12 @@ feature 'User can edit this answer', "
   end
 
   describe 'Authenticated user' do
-
-    scenario 'edits an answer', js: true do
+    background do
       login(user)
       visit question_path(question)
+    end
 
+    scenario 'edits an answer', js: true do
       click_on 'Edit'
       within '.answers' do
         fill_in 'Your answer', with: 'some test answer'
@@ -34,13 +35,9 @@ feature 'User can edit this answer', "
     end
     
     scenario 'edits an answer with errors', js: true do
-      login(user)
-      visit question_path(question)
-
-
       within ".answers #answer-#{answer.id}" do
         click_on 'Edit'
-        
+
         fill_in 'Your answer', with: ''
         click_on 'Save'
 
@@ -53,9 +50,8 @@ feature 'User can edit this answer', "
     scenario "tries to edit other user's answer" do
       other_user = create(:user)
       answer_other_user = create(:answer, question: question, user: other_user)
-      login(user)
-      visit question_path(question)
 
+      visit question_path(question)
       within ".answers #answer-#{answer_other_user.id}" do
         expect(page).to_not have_link 'Edit'
         expect(page).to_not have_selector 'form'
