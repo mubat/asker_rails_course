@@ -18,11 +18,13 @@ feature 'Author of the Question can mark best Answer', "
       visit question_path(question)
 
       within "#answer-#{answer.id}" do
-        click_on 'Make answer best'
-        answer.reload
+        expect(page).to_not have_content 'Best answer'
 
-        expect(page).to have_content 'Best answer'
-        expect(answer.is_best).to be true
+        click_on 'Make answer best'
+
+        expect(page).to have_text 'Best answer'
+        answer.reload
+        expect(answer.is_best).to be_truthy
       end
     end
     scenario 'can mark only one best Answer'
