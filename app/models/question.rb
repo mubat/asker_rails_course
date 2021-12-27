@@ -5,4 +5,8 @@ class Question < ApplicationRecord
 
   validates :title, presence: true
   validates :body, presence: true
+
+  def best_answer
+    answers.where(is_best: true).first
+  end
 end

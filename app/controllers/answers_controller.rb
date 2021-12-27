@@ -13,6 +13,13 @@ class AnswersController < ApplicationController
     @question = answer.question
   end
 
+  def mark_best
+    answer.make_best if current_user.author_of?(answer.question)
+    @question = answer.question
+    render 'update'
+  end
+
+
   def destroy
     answer.destroy if current_user.author_of?(answer)
   end
