@@ -12,7 +12,13 @@ feature 'Author of the Question can mark best Answer', "
   given!(:best_answer) { create(:answer, question: question, user: user, is_best: true) }
   # :best_answer should be created after :answer
 
-  scenario "Unauthenticated User can't choose best Answer"
+  scenario "Unauthenticated User can't choose best Answer" do
+    visit question_path(question)
+
+    within '.answers' do
+      expect(page).to_not have_link 'Make answer best'
+    end
+  end
 
   describe 'Authenticated user' do
     background { login(user) }
