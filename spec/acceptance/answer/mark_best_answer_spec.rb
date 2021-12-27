@@ -8,12 +8,12 @@ feature 'Author of the Question can mark best Answer', "
 
   given!(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
-  given!(:answer) { create(:answer, question: question, user: user, is_best: false) }
+  given!(:answer) { create(:answer, question: question, user: user, is_best: nil) }
 
   scenario "Unauthenticated User can't choose best Answer"
 
   describe 'Authenticated user' do
-    scenario 'can mark best Answer' do
+    scenario 'can mark best Answer', js: true do
       login(user)
       visit question_path(question)
 
