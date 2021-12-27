@@ -10,6 +10,7 @@ feature 'Author of the Question can mark best Answer', "
   given!(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, question: question, user: user, is_best: nil) }
   given!(:best_answer) { create(:answer, question: question, user: user, is_best: true) }
+  # :best_answer should be created after :answer
 
   scenario "Unauthenticated User can't choose best Answer"
 
@@ -60,6 +61,16 @@ feature 'Author of the Question can mark best Answer', "
       within "#answer-#{other_answer.id}" do
         expect(page).to_not have_text 'Make answer best'
       end
+    end
+  end
+
+  scenario 'Best Answer prints at first' do
+    visit question_path(question)
+
+    within ".answers" do
+      expect(find('.answer-data:first-child')).to have_text("Best answer")
+      expect(find('.answer-data:first-child')['class']).to include("answer-best")
+      expect(page).to_not have_css(".answer-data:not(:first-child).answer-best")
     end
   end
 
