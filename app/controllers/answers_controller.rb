@@ -29,7 +29,7 @@ class AnswersController < ApplicationController
   helper_method :question, :answer
 
   def answer_params
-    params.require(:answer).permit(:body, :is_best)
+    params.require(:answer).permit(:body)
   end
 
   def question
