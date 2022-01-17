@@ -13,7 +13,7 @@ class Answer < ApplicationRecord
   def make_best
     transaction do
       question.answers.where(is_best: true).update_all(is_best: false)
-      update(is_best: true) 
+      update!(is_best: true)
     end
   end
 
