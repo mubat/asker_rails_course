@@ -16,7 +16,7 @@ class AnswersController < ApplicationController
   def mark_best
     answer.make_best if current_user.author_of?(answer.question)
     @question = answer.question
-    render 'update'
+    render :update
   end
 
 
