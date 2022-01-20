@@ -2,6 +2,8 @@ class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :user
 
+  has_many_attached :files
+
   before_validation :set_nil_for_false # nil and FALSE are considered the same
 
   validates :body, presence: true
