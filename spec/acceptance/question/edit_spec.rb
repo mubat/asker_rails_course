@@ -10,21 +10,23 @@ feature 'User can edit his own question', "
   given(:question) { create(:question, user: user, files: [fixture_file_upload("#{Rails.root}/spec/rails_helper.rb")]) }
 
   describe 'Question creator' do
-    scenario "Can edit his question", js:true do 
+    background do
       login(user)
       visit question_path(question)
+    end
 
+    scenario "Can edit his question", js: true do
       within '.question-data' do
         expect(page).to_not have_selector 'form'
 
         click_on 'Edit'
-        
+
         expect(page).to_not have_link 'Edit'
-        
+
         fill_in 'Title', with: 'new title'
         fill_in 'Body', with: 'new body'
         click_on 'Save'
-        
+
         expect(page).to_not have_selector 'form'
         expect(page).to_not have_content question.title
         expect(page).to_not have_content question.body
@@ -35,13 +37,9 @@ feature 'User can edit his own question', "
 
     end
 
-    scenario 'can add files while editing a question', js:true do
-      login(user)
-      visit question_path(question)
-
+    scenario 'can add files while editing a question', js: true do
       within '.question-data' do
         expect(page).to have_link 'rails_helper.rb'
-        expect(page).to_not have_selector 'form'
 
         click_on 'Edit'
 
