@@ -78,6 +78,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    let!(:question_with_file) { create(:question, user: user, files: [fixture_file_upload("#{Rails.root}/spec/rails_helper.rb")]) }
+
     before { login(user) }
 
     context 'with valid attributes' do
@@ -92,6 +94,16 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.title).to eq 'new title'
         expect(question.body).to eq 'new body'
       end
+
+      it 'add new attached file to question' do
+        expect {
+          patch :update,
+                params: { id: question_with_file, question: { files: [fixture_file_upload("#{Rails.root}/spec/spec_helper.rb")] } },
+                format: :js
+          question.reload
+        }.to change(ActiveStorage::Attachment, :count).by(1)
+      end
+
       it 'redirects to updated question' do
         patch :update, params: { id: question, question: attributes_for(:question) }
         expect(response).to redirect_to :question
