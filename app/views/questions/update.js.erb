@@ -1,4 +1,5 @@
 <% if !question.errors.present? %>
+(function () {
   let questionBlock = $('.question-data');
   
   questionBlock.find('h1').text('<%= question.title %>');
@@ -12,4 +13,5 @@
   <% end %>
   questionBlock.find('form').addClass('hidden');
   questionBlock.find('.edit-question').removeClass('hidden');
+}());
 <% end %>
