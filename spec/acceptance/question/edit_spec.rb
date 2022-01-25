@@ -7,7 +7,7 @@ feature 'User can edit his own question', "
 " do
 
   given(:user) { create(:user) }
-  given(:question) { create(:question, user: user) }
+  given(:question) { create(:question, user: user, files: [fixture_file_upload("#{Rails.root}/spec/rails_helper.rb")]) }
 
   describe 'Question creator' do
     scenario "Can edit his question", js:true do 
@@ -40,15 +40,17 @@ feature 'User can edit his own question', "
       visit question_path(question)
 
       within '.question-data' do
+        expect(page).to have_link 'rails_helper.rb'
         expect(page).to_not have_selector 'form'
 
         click_on 'Edit'
 
-        expect(page).to_not have_link 'Edit'
+        expect(page).to have_field 'Title' # just to check that update form present
 
-        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        attach_file 'File', ["#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Save'
 
+        expect(page).to have_link 'spec_helper.rb'
         expect(page).to have_link 'rails_helper.rb'
       end
     end
