@@ -34,6 +34,24 @@ feature 'User can edit his own question', "
       end
 
     end
+
+    scenario 'can add files while editing a question', js:true do
+      login(user)
+      visit question_path(question)
+
+      within '.question-data' do
+        expect(page).to_not have_selector 'form'
+
+        click_on 'Edit'
+
+        expect(page).to_not have_link 'Edit'
+
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Save'
+
+        expect(page).to have_link 'rails_helper.rb'
+      end
+    end
   end
 
   describe 'Other user' do
