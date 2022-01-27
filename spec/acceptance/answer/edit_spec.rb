@@ -8,7 +8,9 @@ feature 'User can edit this answer', "
 
   given!(:user) { create(:user) }
   given!(:question) { create(:question) }
-  given!(:answer) { create(:answer, question: question, user: user) }
+  given!(:answer) do
+    create(:answer, question: question, user: user, files: [fixture_file_upload("#{Rails.root}/spec/rails_helper.rb")])
+  end
 
   scenario "Unauthenticated user can't edit answer" do
     visit question_path(question)
@@ -33,7 +35,23 @@ feature 'User can edit this answer', "
         expect(page).to_not have_selector 'textarea'
       end
     end
-    
+
+    scenario "add files on answer's edit", js: true do
+      within "#answer-#{answer.id}" do
+        expect(page).to have_link 'rails_helper.rb'
+        click_on 'Edit'
+
+        expect(page).to have_field 'Your answer' # just to check that update form present
+
+        attach_file 'Files', ["#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Save'
+
+        expect(page).to_not have_selector 'form'
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
+    end
+
     scenario 'edits an answer with errors', js: true do
       within ".answers #answer-#{answer.id}" do
         click_on 'Edit'
