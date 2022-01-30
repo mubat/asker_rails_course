@@ -53,7 +53,7 @@ feature 'User can edit his own question', "
       end
     end
 
-    scenario 'can remove files from question' do
+    scenario 'can remove files from question', js: true do
       within '.question-data' do
         expect(page).to have_link 'rails_helper.rb'
 
