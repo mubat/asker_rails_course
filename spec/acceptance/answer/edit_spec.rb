@@ -86,28 +86,28 @@ feature 'User can edit this answer', "
       end
     end
 
-    scenario "tries to edit other user's answer" do
-      other_user = create(:user)
-      answer_other_user = create(:answer, question: question, user: other_user)
+    describe 'Not an owner' do
+      let!(:other_user) { create(:user) }
+      let!(:answer_other_user) do
+        create(:answer, question: question, user: other_user,
+                        files: [fixture_file_upload("#{Rails.root}/spec/rails_helper.rb")])
+      end
 
-      visit question_path(question)
-      within ".answers #answer-#{answer_other_user.id}" do
-        expect(page).to_not have_link 'Edit'
-        expect(page).to_not have_selector 'form'
+      background { visit question_path(question) }
+
+      scenario "tries to edit other user's answer" do
+        within ".answers #answer-#{answer_other_user.id}" do
+          expect(page).to_not have_link 'Edit'
+          expect(page).to_not have_selector 'form'
+        end
+      end
+
+      scenario "can't remove files from other owner's answer" do
+        within "#answer-#{answer_other_user.id}" do
+          expect(page).to have_link 'rails_helper.rb'
+          expect(page).to_not have_link 'Delete file'
+        end
       end
     end
-
-    scenario "can't remove files from other owner's answer" do
-      other_user = create(:user)
-      answer_other_user = create(:answer, question: question, user: other_user,
-                                          files: [fixture_file_upload("#{Rails.root}/spec/rails_helper.rb")])
-
-      visit question_path(question)
-      within "#answer-#{answer_other_user.id}" do
-        expect(page).to have_link 'rails_helper.rb'
-        expect(page).to_not have_link 'Delete file'
-      end
-    end
-
   end
 end
