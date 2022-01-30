@@ -12,10 +12,21 @@ feature 'User can edit this answer', "
     create(:answer, question: question, user: user, files: [fixture_file_upload("#{Rails.root}/spec/rails_helper.rb")])
   end
 
-  scenario "Unauthenticated user can't edit answer" do
-    visit question_path(question)
+  describe 'Unauthenticated user' do
+    scenario "can't edit answer" do
+      visit question_path(question)
 
-    expect(page).to_not have_link 'Edit'
+      expect(page).to_not have_link 'Edit'
+    end
+
+    scenario "can't remove files from answer" do
+      visit question_path(question)
+
+      within "#answer-#{answer.id}" do
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to_not have_link 'Delete file'
+      end
+    end
   end
 
   describe 'Authenticated user' do
