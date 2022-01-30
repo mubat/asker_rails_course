@@ -3,7 +3,9 @@ require 'rails_helper'
 RSpec.describe AttachmentsController, type: :controller do
   describe 'DELETE #destory' do
     let(:user) { create(:user) }
-    let!(:question) { create(:question, user: user, files: [fixture_file_upload("#{Rails.root}/spec/rails_helper.rb")]) }
+    let!(:question) do
+      create(:question, user: user, files: [fixture_file_upload("#{Rails.root}/spec/rails_helper.rb")])
+    end
 
     describe 'Question attachment' do
       describe 'by authenticated user' do
