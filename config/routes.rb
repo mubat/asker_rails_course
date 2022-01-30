@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     resources :answers, shallow: true, only: %i[new create update destroy] do
       patch :mark_best, on: :member
     end
-
-    resources :attachments, only: :destroy
   end
+
+  resources :attachments, only: :destroy
 end
