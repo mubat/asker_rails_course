@@ -42,13 +42,13 @@ RSpec.describe AttachmentsController, type: :controller do
   end
 
   describe 'Answer attachment' do
-    describe 'by authenticated user' do
-      let!(:question) { create(:question, user: user) }
-      let!(:answer) do
-        create(:answer, question: question, user: user,
-               files: [fixture_file_upload("#{Rails.root}/spec/rails_helper.rb")])
-      end
+    let!(:question) { create(:question, user: user) }
+    let!(:answer) do
+      create(:answer, question: question, user: user,
+             files: [fixture_file_upload("#{Rails.root}/spec/rails_helper.rb")])
+    end
 
+    describe 'by authenticated user' do
       before { login(user) }
 
       it 'remove attached file from own Answer' do
@@ -63,7 +63,12 @@ RSpec.describe AttachmentsController, type: :controller do
     end
 
     describe 'by unauthenticated user' do
-      it 'should not remove attached file from question'
+      it 'should not remove attached file from question' do
+        expect do
+          delete :destroy, params: { id: answer.files.first }, format: :js
+          answer.reload
+        end.to_not change(ActiveStorage::Attachment, :count)
+      end
     end
   end
 end
