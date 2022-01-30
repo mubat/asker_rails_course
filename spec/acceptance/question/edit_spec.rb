@@ -68,10 +68,12 @@ feature 'User can edit his own question', "
   describe 'Other user' do
     given(:other_user) { create(:user) }
 
-    scenario "Can't edit question" do
+    background do
       login(other_user)
       visit question_path(question)
+    end
 
+    scenario "Can't edit question" do
       within '.question-data' do
         expect(page).to_not have_link 'Edit'
         expect(page).to_not have_selector 'form'
@@ -80,9 +82,6 @@ feature 'User can edit his own question', "
     end
 
     scenario "Can't delete files" do
-      login(other_user)
-      visit question_path(question)
-
       within "#attachment-#{question.files.first.id}" do
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to_not have_link 'Delete file'
