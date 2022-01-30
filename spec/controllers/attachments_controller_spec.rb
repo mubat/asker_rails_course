@@ -9,9 +9,9 @@ RSpec.describe AttachmentsController, type: :controller do
       describe 'by authenticated user' do
         before { login(user) }
 
-        it 'remove attached file from own 0question' do
+        it 'remove attached file from own Question' do
           expect do
-            delete :destroy, params: { id: question.files.first }
+            delete :destroy, params: { id: question.files.first }, format: :js
             question.reload
           end.to change(ActiveStorage::Attachment, :count).by(-1)
         end
@@ -21,7 +21,7 @@ RSpec.describe AttachmentsController, type: :controller do
           login(other_user)
 
           expect do
-            delete :destroy, params: { id: question.files.first }
+            delete :destroy, params: { id: question.files.first }, format: :js
             question.reload
           end.to_not change(ActiveStorage::Attachment, :count)
         end
