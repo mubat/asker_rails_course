@@ -4,9 +4,7 @@ div.question-data
 
   .files
     -if question.files.attached?
-      - @question.files.each do |file|
-        = link_to file.filename.to_s, url_for(file)
-        = link_to 'Delete file', question_attachment_path(question, file), method: :delete
+      = render partial: 'attachments/attachment', collection: question.files
 
   -if current_user&.author_of?(question)
     = link_to 'Edit', '#', class: 'edit-question'
