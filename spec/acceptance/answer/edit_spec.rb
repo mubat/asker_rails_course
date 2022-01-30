@@ -65,6 +65,16 @@ feature 'User can edit this answer', "
       end
     end
 
+    scenario 'can remove files from answer', js: true do
+      within "#answer-#{answer.id}" do
+        expect(page).to have_link 'rails_helper.rb'
+
+        click_on 'Delete file'
+
+        expect(page).to_not have_link 'rails_helper.rb'
+      end
+    end
+
     scenario "tries to edit other user's answer" do
       other_user = create(:user)
       answer_other_user = create(:answer, question: question, user: other_user)
