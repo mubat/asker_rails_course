@@ -52,6 +52,17 @@ feature 'User can edit his own question', "
         expect(page).to have_link 'rails_helper.rb'
       end
     end
+
+    scenario 'can remove files from question' do
+      within '.question-data' do
+        expect(page).to have_link 'rails_helper.rb'
+
+        click_on 'Delete file'
+
+        expect(page).to_not have_link 'rails_helper.rb'
+      end
+
+    end
   end
 
   describe 'Other user' do
