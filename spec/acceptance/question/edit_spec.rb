@@ -78,5 +78,16 @@ feature 'User can edit his own question', "
       end
 
     end
+
+    scenario "Can't delete files" do
+      login(other_user)
+      visit question_path(question)
+
+      within "#attachment-#{question.files.first.id}" do
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to_not have_link 'Delete file'
+      end
+
+    end
   end
 end
