@@ -58,8 +58,15 @@ RSpec.describe AttachmentsController, type: :controller do
         end.to change(ActiveStorage::Attachment, :count).by(-1)
       end
 
-      it 'should not remove attached file from not own Answer'
+      it 'should not remove attached file from not own Answer' do
+        other_user = create(:user)
+        login(other_user)
 
+        expect do
+          delete :destroy, params: { id: answer.files.first }, format: :js
+          answer.reload
+        end.to_not change(ActiveStorage::Attachment, :count)
+      end
     end
 
     describe 'by unauthenticated user' do
