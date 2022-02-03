@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'User can add links to question', "
+feature 'User can add links to question', "
   In order to provide additional info to my question
   As an question's author
   I'd like to be able to add links
@@ -15,11 +15,11 @@ describe 'User can add links to question', "
     fill_in 'Title', with: 'Test question'
     fill_in 'Body', with: 'Test test test'
 
-    fill_in 'Link name ', with: 'Very important link'
+    fill_in 'Link name', with: 'Very important link'
     fill_in 'Url', with: testing_url
 
     click_on 'Ask'
 
-    expect(page).to have_link 'My gist', href: testing_url
+    expect(page).to have_link 'Very important link', href: testing_url
   end
 end
