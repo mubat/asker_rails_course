@@ -4,6 +4,8 @@ class Question < ApplicationRecord
 
   has_many_attached :files
 
+  accepts_nested_attributes_for :links
+
   belongs_to :user
 
   validates :title, presence: true
