@@ -6,7 +6,9 @@ class QuestionsController < ApplicationController
     @questions = Question.all
   end
 
-  def new; end
+  def new
+    question.links.new
+  end
 
   def create
     @question = current_user.questions.new(question_params)
@@ -59,6 +61,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [], links_attributes: %i[name url])
   end
 end
