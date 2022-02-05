@@ -15,8 +15,17 @@ feature 'User can add links to Answer', "
 
     fill_in 'Answer', with: 'Test answer'
 
+    click_on 'Add link'
+
     fill_in 'Link name', with: 'Very important link'
     fill_in 'Url', with: testing_url
+
+    click_on 'Add link'
+
+    within '.nested-fields:nth-of-type(2)' do
+      fill_in 'Link name', with: 'Very important link2'
+      fill_in 'Url', with: testing_url
+    end
 
     click_on 'Answer it'
     within '.answers' do
