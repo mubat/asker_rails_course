@@ -18,11 +18,8 @@ div.question-data
       = f.file_field :files, multiple: true, direct_upload: true
       = f.submit 'Save'
 
-.links
-  p Links:
-  ul
-    - question.links.each do |link|
-      li= link_to link.name, link.url, remote: true
+= render 'links/list', resource: question
+
 .answers
   -if question.answers.count.zero?
     div.answers__empty Still no answer here
