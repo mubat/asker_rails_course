@@ -1,9 +1,6 @@
 p Links:
 p
-  = form.fields_for :links do |l|
-    p
-      = l.label :name, 'Link name'
-      = l.text_field :name
-    p
-      = l.label :url
-      = l.text_field :url
+  = form.fields_for :links, [] do |links_form|
+    = render 'links/link_fields', f: links_form
+  .links
+    = link_to_add_association 'Add link', form, :links, partial: 'links/link_fields'
