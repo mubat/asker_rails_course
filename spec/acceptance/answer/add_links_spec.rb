@@ -9,7 +9,7 @@ feature 'User can add links to Answer', "
   given!(:question) { create(:question) }
   given(:testing_url) { 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' }
 
-  scenario 'User adds link when asks Answer' do
+  scenario 'User adds link when asks Answer', js: true do
     login(user)
     visit question_path(question)
 
