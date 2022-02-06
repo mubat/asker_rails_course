@@ -9,6 +9,7 @@ feature 'User can add links to Answer', "
   given!(:question) { create(:question) }
   given(:testing_url_name) { "Answer's link" }
   given(:testing_url) { 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' }
+  given(:gist_url) { 'https://gist.github.com/edelpero/9257311' }
   given(:wrong_url) { 'http:/wrongUrl' }
 
   describe 'Authenticated user' do
@@ -47,6 +48,18 @@ feature 'User can add links to Answer', "
 
       expect(page).to_not have_link 'Very important link'
       expect(page).to have_content 'url is not a valid URL'
+    end
+
+    scenario "can adds link to Gist.Github.com and see it data", js: true do
+      click_on 'Add link'
+
+      fill_in 'Link name', with: 'Gist link'
+      fill_in 'Url', with: gist_url
+
+      click_on 'Answer it'
+
+      expect(page).to_not have_link 'Very important link'
+      expect(page).to have_content 'Heroku, Ruby on Rails and PhantomJS'
     end
   end
 end
