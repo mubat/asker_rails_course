@@ -3,4 +3,8 @@ class Link < ApplicationRecord
 
   validates :name, presence: true
   validates :url, presence: true, url: { no_local: true }
+
+  def gist?
+    url.match?(/(https?:\/\/)?gist\.github\.com\/[\w\d\.\-\/]+/)
+  end
 end
