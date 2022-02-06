@@ -31,4 +31,23 @@ feature 'User can add links to question', "
     expect(page).to have_link 'Very important link', href: testing_url
     expect(page).to have_link 'Very important link2', href: testing_url
   end
+
+  scenario "User can't adds link with invalid URL when asks question", js: true do
+    login(user)
+    visit new_question_path
+
+    fill_in 'Title', with: 'Test question'
+    fill_in 'Body', with: 'Test test test'
+
+    click_on 'Add link'
+
+    fill_in 'Link name', with: 'Very important link'
+    fill_in 'Url', with: 'http:/wrongUrl'
+
+    click_on 'Ask'
+
+    expect(current_path).to eq new_question_path
+    expect(page).to_not have_link 'Very important link'
+    expect(page).to have_content 'invalid URL'
+  end
 end
