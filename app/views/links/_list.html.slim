@@ -2,7 +2,8 @@
   p Links:
   ul
     - resource.links.each do |link|
-      li
+      li id="link-#{link.id}"
+        div= link_to 'Delete link', link_path(link), method: :delete, remote: true
         -if link.gist?
           .gist-container data-src= "#{link.url+ ".json"}"
         - else

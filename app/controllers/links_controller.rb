@@ -5,6 +5,8 @@ class LinksController < ApplicationController
 
   private
 
+  helper_method :link
+
   # @return [Link] target object
   def link
     @link ||= Link.find(params[:id])
