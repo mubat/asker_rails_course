@@ -4,4 +4,5 @@ $('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
   $('.answers__empty').remove();
   $('.new-answer #answer_body').val('');
   $('.answers').append('<%= j render @answer %>');
+  loadGist($('#answer-<%= @answer.id %> .gist-container'));
 <% end %>

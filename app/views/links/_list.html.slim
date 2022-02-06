@@ -2,4 +2,8 @@
   p Links:
   ul
     - resource.links.each do |link|
-      li= link_to link.name, link.url, remote: true
+      li
+        -if link.gist?
+          .gist-container data-src= "#{link.url+ ".json"}"
+        - else
+          = link_to link.name, link.url, remote: true
