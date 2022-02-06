@@ -46,8 +46,7 @@ feature 'User can add links to question', "
 
     click_on 'Ask'
 
-    expect(current_path).to eq new_question_path
     expect(page).to_not have_link 'Very important link'
-    expect(page).to have_content 'invalid URL'
+    expect(page).to have_content 'url is not a valid URL'
   end
 end
