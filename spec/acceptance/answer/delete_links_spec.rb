@@ -11,7 +11,7 @@ feature 'User can delete links from Answer', "
     given(:answer) { create :answer, question: create(:question), user: user }
     given!(:links) { create_list :link, 2, linkable: answer }
 
-    scenario 'can remove links from answer' do
+    scenario 'can remove links from answer', js: true do
       login(user)
       visit question_path(answer.question)
 
