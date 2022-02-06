@@ -32,4 +32,21 @@ feature 'User can add links to Answer', "
       expect(page).to have_link 'Very important link', href: testing_url
     end
   end
+
+  scenario "User can't adds link with invalid URL when asks question", js: true do
+    login(user)
+    visit question_path(question)
+    fill_in 'Answer', with: 'Test answer'
+
+    click_on 'Add link'
+
+    fill_in 'Link name', with: 'Very important link'
+    fill_in 'Url', with: 'http:/wrongUrl'
+
+    click_on 'Answer it'
+
+    expect(page).to_not have_link 'Very important link'
+    expect(page).to have_content 'url is not a valid URL'
+  end
+
 end
