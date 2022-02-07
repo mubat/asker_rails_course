@@ -9,6 +9,8 @@ RSpec.describe LinksController, type: :controller do
       let!(:answer_link) { create(:link, linkable: create(:answer, question: question, user: user)) }
 
       describe 'by authenticated user' do
+        before { login(user) }
+
         it 'deletes link' do
           expect do
             delete :destroy, params: { id: answer_link }, format: :js
@@ -36,6 +38,8 @@ RSpec.describe LinksController, type: :controller do
       let!(:question_link) { create(:link, linkable: question) }
 
       describe 'by authenticated user' do
+        before { login(user) }
+
         it 'deletes link' do
           expect do
             delete :destroy, params: { id: question_link }, format: :js
