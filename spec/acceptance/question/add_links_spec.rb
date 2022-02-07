@@ -50,5 +50,26 @@ feature 'User can add links to question', "
       expect(page).to_not have_link testing_url_name
       expect(page).to have_content 'url is not a valid URL'
     end
+
+    scenario 'can add link on Question update', js: true do
+      question = create(:question, user: user)
+      link = create(:link, linkable: question)
+
+      visit question_path(question)
+
+      within '.question-data' do
+        click_on 'Edit'
+
+        click_on 'Add link'
+
+        fill_in 'Link name', with: 'Very important link'
+        fill_in 'Url', with: testing_url
+
+        click_on 'Save'
+
+        expect(page).to have_link 'Very important link', href: testing_url
+        expect(page).to have_link link.name, href: link.url
+      end
+    end
   end
 end
