@@ -47,7 +47,15 @@ RSpec.describe LinksController, type: :controller do
           end.to change(Link, :count).by(-1)
         end
 
-        it "doesn't delete link where not an answer's author"
+        it "doesn't delete link where not an answer's author" do
+          other_user = create(:user)
+          other_author_question = create(:question, user: other_user)
+          other_author_link = create(:link, linkable: other_author_question)
+
+          expect do
+            delete :destroy, params: { id: other_author_link }, format: :js
+          end.to_not change(Link, :count)
+        end
       end
 
       describe 'by unauthenticated user' do
