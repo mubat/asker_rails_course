@@ -7,7 +7,30 @@ feature 'User can add reward to question', "
 " do
 
   describe 'Authenticated User' do
-    scenario "can populate reward on Question's creation"
+    given(:user) { create :user }
+
+    background do
+      login(user)
+    end
+
+    scenario "can populate reward on Question's creation" do
+      visit questions_path
+      click_on 'Ask question'
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'text text text'
+
+      within '.award' do
+        fill_in 'Name', with: 'Award name'
+        attach_file 'Image', Rails.root.join('spec/fixtures/test_img.jpg')
+      end
+
+      click_on 'Ask'
+
+      expect(page).to have_content 'Your question successfully created.'
+      expect(page).to have_content 'For the best answer you will receive'
+      expect(page).to have_content 'Award name'
+      expect(page).to have_css("img[src*='test_img.jpg']")
+    end
 
     scenario "can't create Question with invalid image"
 
