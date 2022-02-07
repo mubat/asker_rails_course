@@ -14,7 +14,6 @@ RSpec.describe LinksController, type: :controller do
         it 'deletes link' do
           expect do
             delete :destroy, params: { id: answer_link }, format: :js
-            answer_link.linkable.reload
           end.to change(Link, :count).by(-1)
         end
 
@@ -47,7 +46,6 @@ RSpec.describe LinksController, type: :controller do
         it 'deletes link' do
           expect do
             delete :destroy, params: { id: question_link }, format: :js
-            question_link.linkable.reload
           end.to change(Link, :count).by(-1)
         end
 
