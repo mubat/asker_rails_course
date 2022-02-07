@@ -6,10 +6,11 @@ feature 'User can delete links from Question', "
   I'd like to be able to delete links
 " do
 
+  given(:user) { create :user }
+  given(:question) { create :question, user: user }
+  given!(:links) { create_list :link, 2, linkable: question }
+
   describe 'Authenticated user' do
-    given(:user) { create :user }
-    given(:question) { create :question, user: user }
-    given!(:links) { create_list :link, 2, linkable: question }
 
     scenario 'can remove links from question', js: true do
       login(user)
@@ -40,5 +41,12 @@ feature 'User can delete links from Question', "
     end
   end
 
-  describe "Unauthorized User can't delete links from Question"
+  scenario "Unauthorized User can't delete links from Question" do
+      visit question_path(question)
+      
+      within '.question-data' do
+        expect(page).to have_link links.first.name
+        expect(page).to_not have_link 'Delete link'
+      end
+  end
 end
