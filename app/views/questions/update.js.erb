@@ -11,6 +11,13 @@
       <% end %>
     <% end %>
   <% end %>
+  <% if question.links.present? %>
+    <% question.links.each do |link| %>
+      <% if link.previously_new_record? %>
+        questionBlock.find('.links ul').append('<li id="link-<%= link.id %>"><%= render link %></li>');
+      <% end %>
+    <% end %>
+  <% end %>
   questionBlock.find('form').addClass('hidden');
   questionBlock.find('.edit-question').removeClass('hidden');
 }());

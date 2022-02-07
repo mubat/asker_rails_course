@@ -18,6 +18,7 @@
       = f.text_area :body
       = f.label :files
       = f.file_field :files, multiple: true, direct_upload: true
+      = render 'links/form', form: f
       = f.submit 'Save'
 
 
