@@ -63,7 +63,11 @@ RSpec.describe LinksController, type: :controller do
       end
 
       describe 'by unauthenticated user' do
-        it "doesn't delete link"
+        it "doesn't delete link" do
+          expect do
+            delete :destroy, params: { id: question_link }, format: :js
+          end.to_not change(Link, :count)
+        end
       end
     end
   end
