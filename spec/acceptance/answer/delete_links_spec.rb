@@ -30,7 +30,16 @@ feature 'User can delete links from Answer', "
       end
     end
 
-    scenario "can't remove links of another author's answer"
+    scenario "can't remove links of another author's answer" do
+      other_user = create(:user)
+      login(other_user)
+      visit question_path(answer.question)
+
+      within "#answer-#{answer.id}" do
+        expect(page).to have_link links.first.name
+        expect(page).to_not have_link 'Delete link'
+      end
+    end
   end
 
   describe "Unauthorized User can't delete links from Answer"
