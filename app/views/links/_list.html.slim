@@ -3,7 +3,8 @@
   ul
     - resource.links.each do |link|
       li id="link-#{link.id}"
-        div= link_to 'Delete link', link_path(link), method: :delete, remote: true
+        -if current_user.author_of? link.linkable
+          div= link_to 'Delete link', link_path(link), method: :delete, remote: true
         -if link.gist?
           .gist-container data-src= "#{link.url+ ".json"}"
         - else
