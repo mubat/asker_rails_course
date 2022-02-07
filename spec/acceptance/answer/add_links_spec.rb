@@ -61,5 +61,26 @@ feature 'User can add links to Answer', "
       expect(page).to_not have_link 'Very important link'
       expect(page).to have_content 'Heroku, Ruby on Rails and PhantomJS'
     end
+
+    scenario 'can add link on Answer update', js: true do
+      answer = create(:answer, question: question, user: user)
+      link = create(:link, linkable: answer)
+
+      visit current_path
+
+      within "#answer-#{answer.id}" do
+        click_on 'Edit'
+
+        click_on 'Add link'
+
+        fill_in 'Link name', with: 'Very important link'
+        fill_in 'Url', with: testing_url
+
+        click_on 'Save'
+
+        expect(page).to have_link 'Very important link', href: testing_url
+        expect(page).to have_link link.name, href: link.url
+      end
+    end
   end
 end
