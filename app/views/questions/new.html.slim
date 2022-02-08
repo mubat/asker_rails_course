@@ -9,9 +9,7 @@
   = f.file_field :files, multiple: true
 
   = render 'links/form', form: f
-
-  = f.fields_for :reward do |reward_form|
-    = render 'rewards/form', form: reward_form
+  = render 'rewards/form', form: f
 
   = f.submit 'Ask'
 
