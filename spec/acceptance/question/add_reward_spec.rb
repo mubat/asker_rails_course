@@ -19,7 +19,7 @@ feature 'User can add reward to question', "
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'text text text'
 
-      within '.award' do
+      within '.reward' do
         fill_in 'Name', with: 'Award name'
         attach_file 'Image', Rails.root.join('spec/fixtures/test_img.jpg')
       end
@@ -27,7 +27,7 @@ feature 'User can add reward to question', "
       click_on 'Ask'
 
       expect(page).to have_content 'Your question successfully created.'
-      expect(page).to have_content 'For the best answer you will receive'
+      expect(page).to have_content 'For the best answer author will receive'
       expect(page).to have_content 'Award name'
       expect(page).to have_css("img[src*='test_img.jpg']")
     end
