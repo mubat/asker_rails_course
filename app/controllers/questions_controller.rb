@@ -8,6 +8,7 @@ class QuestionsController < ApplicationController
 
   def new
     question.links.new
+    question.build_reward
   end
 
   def create
