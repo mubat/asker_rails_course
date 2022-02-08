@@ -21,6 +21,10 @@
       = render 'links/form', form: f
       = f.submit 'Save'
 
+- if question.reward.present?
+  .reward-container
+    div For the best answer author will receive
+    = render 'rewards/reward', reward: question.reward
 
 .answers
   -if question.answers.count.zero?
