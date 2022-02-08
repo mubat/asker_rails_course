@@ -1,5 +1,5 @@
-= form.fields_for :reward do |reward_form|
-  .reward
+.reward
+  = form.fields_for :reward do |reward_form|
     div Reward for the best answer
     = reward_form.label :name
     = reward_form.text_field :name
