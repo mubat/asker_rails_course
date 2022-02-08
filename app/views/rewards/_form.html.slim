@@ -1,6 +1,7 @@
-.award
-  div Reward for the best answer
-  = form.label :name
-  = form.text_field :name
-  = form.label :image
-  = form.file_field :image, direct_upload: true
+= form.fields_for :reward do |reward_form|
+  .reward
+    div Reward for the best answer
+    = reward_form.label :name
+    = reward_form.text_field :name
+    = reward_form.label :image
+    = reward_form.file_field :image
