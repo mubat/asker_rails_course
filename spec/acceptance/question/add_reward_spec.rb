@@ -33,8 +33,7 @@ feature 'User can add reward to question', "
     end
 
     scenario "can't create Question with invalid image" do
-      visit questions_path
-      click_on 'Ask question'
+      visit new_question_path
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'text text text'
 
@@ -43,10 +42,12 @@ feature 'User can add reward to question', "
         attach_file 'Image', Rails.root.join('spec/spec_helper.rb')
       end
 
+      click_on 'Ask'
+
       expect(page).to_not have_content 'Your question successfully created.'
       expect(page).to_not have_content 'Test question'
       expect(page).to_not have_content 'Award name'
-      expect(page).to have_content "image has an invalid type"
+      expect(page).to have_content "Reward image has an invalid content type"
     end
 
     scenario "can't create Question with empty award image"
