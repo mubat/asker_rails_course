@@ -1,6 +1,9 @@
-#rewards-list
-  - @rewards.each do |reward|
-    .reward
-      = link_to reward.question.title, question_path(reward.question)
-      div= reward.name
-      = image_tag reward.image
+- unless @rewards.present?
+  p You have no rewards for now
+- else
+  #rewards-list
+    - @rewards.each do |reward|
+      .reward
+        = link_to reward.question.title, question_path(reward.question)
+        div= reward.name
+        = image_tag reward.image
