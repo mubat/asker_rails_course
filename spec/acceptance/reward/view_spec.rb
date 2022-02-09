@@ -33,5 +33,9 @@ feature "User can view his Rewards", "
     end
   end
 
-  scenario 'Unauthenticated User doesnt view My rewards link'
+  scenario 'Unauthenticated User doesnt view My rewards link' do
+    visit questions_path
+
+    expect(page).to_not have_link 'My rewards'
+  end
 end
