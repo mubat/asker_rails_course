@@ -16,3 +16,8 @@
 <% else %>
   $('#<%= answer_selector %>').html('<%= j render @answer %>');
 <% end %>
+
+$('.notice,.alert').text('');
+<% flash.each do |level, message| %>
+  $('.<%= level %>').append('<%= message %>')
+<% end %>

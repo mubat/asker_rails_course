@@ -21,7 +21,7 @@ feature "User takes Reward when Question's author choose best Answer", "
     end
 
     expect(page).to have_content "User #{answer_author.email} received a #{reward.name} reward"
-    expect(answer_author.awards).to eq [award]
+    expect(answer_author.rewards).to eq [reward]
   end
 
   scenario "Question's author doesn't take a reward when mark his answer as best"
