@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
+  let(:answer_author) { create(:user) }
   let(:question) { create(:question, user: user) }
-  let!(:answer) { create(:answer, question: question, user: user, is_best: nil) }
+  let!(:answer) { create(:answer, question: question, user: answer_author, is_best: nil) }
 
   describe 'POST #create - User can create new Answer' do
     it 'opens under question resource' do

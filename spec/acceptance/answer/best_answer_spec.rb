@@ -7,8 +7,9 @@ feature 'Author of the Question can mark best Answer', "
 " do
 
   given!(:user) { create(:user) }
+  given!(:answer_author) { create(:user) }
   given!(:question) { create(:question, user: user) }
-  given!(:answer) { create(:answer, question: question, user: user, is_best: nil) }
+  given!(:answer) { create(:answer, question: question, user: answer_author, is_best: nil) }
   given!(:best_answer) { create(:answer, question: question, user: user, is_best: true) }
   # :best_answer should be created after :answer
 
