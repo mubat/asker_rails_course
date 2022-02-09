@@ -59,6 +59,17 @@ feature 'User can add reward to question', "
       expect(page).to have_content "Reward image can't be blank"
     end
 
-    scenario "can't create Question with empty award name"
+    scenario "can't create Question with empty award name" do
+      within '.reward' do
+        attach_file 'Image', Rails.root.join('spec/spec_helper.rb')
+      end
+
+      click_on 'Ask'
+
+      expect(page).to_not have_content 'Your question successfully created.'
+      expect(page).to_not have_content 'Test question'
+      expect(page).to_not have_content 'Award name'
+      expect(page).to have_content "Reward name can't be blank"
+    end
   end
 end
