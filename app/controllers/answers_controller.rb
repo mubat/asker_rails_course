@@ -16,7 +16,9 @@ class AnswersController < ApplicationController
   def mark_best
     @question = answer.question
 
-    if current_user.author_of?(answer.question)
+    if current_user.author_of?(answer)
+      flash[:alert] = "You can't give a reward for yourself" if question.reward
+    elsif current_user.author_of?(answer.question)
       answer.make_best
       flash[:notice] = "User #{answer.user.email} received a #{question.reward.name} reward" if question.reward
     end
