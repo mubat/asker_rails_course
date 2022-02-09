@@ -12,6 +12,7 @@
 
   <body>
     <% if current_user %>
+      <%= link_to 'My rewards', rewards_path %>
       <%= link_to 'Log out', destroy_user_session_path, method: :delete %>
     <% end %>
     <p class="notice"><%= notice %></p>
