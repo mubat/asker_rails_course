@@ -26,10 +26,17 @@ feature "User can view his Rewards", "
     end
 
     scenario "see 'No rewards' message when has no one Reward" do
+      create_list :reward, 3
+
       login(create(:user))
       visit rewards_path
 
       expect(page).to have_content 'You have no rewards for now'
+      rewards.each do |reward|
+        expect(page).to_not have_link reward.question.title, href: question_path(reward.question)
+        expect(page).to_not have_content reward.name
+        expect(page).to_not have_css("img[src*='#{reward.image.filename}']")
+      end
     end
   end
 
