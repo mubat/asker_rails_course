@@ -46,7 +46,18 @@ feature 'User can add reward to question', "
       expect(page).to have_content "Reward image has an invalid content type"
     end
 
-    scenario "can't create Question with empty award image"
+    scenario "can't create Question with empty award image" do
+      within '.reward' do
+        fill_in 'Name', with: 'Award name'
+      end
+
+      click_on 'Ask'
+
+      expect(page).to_not have_content 'Your question successfully created.'
+      expect(page).to_not have_content 'Test question'
+      expect(page).to_not have_content 'Award name'
+      expect(page).to have_content "Reward image can't be blank"
+    end
 
     scenario "can't create Question with empty award name"
   end
