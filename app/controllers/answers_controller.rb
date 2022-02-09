@@ -14,8 +14,13 @@ class AnswersController < ApplicationController
   end
 
   def mark_best
-    answer.make_best if current_user.author_of?(answer.question)
     @question = answer.question
+
+    if current_user.author_of?(answer.question)
+      answer.make_best
+      flash[:notice] = "User #{answer.user.email} received a #{question.reward.name} reward"
+    end
+
     render :update
   end
 
