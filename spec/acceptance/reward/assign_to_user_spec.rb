@@ -24,5 +24,17 @@ feature "User takes Reward when Question's author choose best Answer", "
     expect(answer_author.rewards).to eq [reward]
   end
 
-  scenario "Question's author doesn't take a reward when mark his answer as best"
+  scenario "Question's author doesn't take a reward when mark his answer as best", js: true do
+    question_author_answer = create(:answer, user: question_author, question: question)
+    login(question_author)
+    visit question_path(question)
+
+    within "#answer-#{question_author_answer.id}" do
+      click_on 'Make answer best'
+    end
+
+    expect(page).to have_content "You can't give a reward for yourself"
+    expect(answer_author.rewards).to eq []
+    expect(question_author.rewards).to eq []
+  end
 end
