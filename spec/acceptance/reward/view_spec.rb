@@ -10,6 +10,9 @@ feature "User can view his Rewards", "
     given(:question) { create :question, user: create(:user) }
     given!(:rewards) { create_list :reward, 2, user: user }
 
+    background do
+    end
+
     scenario 'see his Rewards' do
       login(user)
       visit questions_path
@@ -22,7 +25,12 @@ feature "User can view his Rewards", "
       end
     end
 
-    describe "see 'No rewards' message when has no one Reward"
+    scenario "see 'No rewards' message when has no one Reward" do
+      login(create(:user))
+      visit rewards_path
+
+      expect(page).to have_content 'You have no rewards for now'
+    end
   end
 
   scenario 'Unauthenticated User doesnt view My rewards link'
