@@ -11,14 +11,14 @@ feature 'User can add reward to question', "
 
     background do
       login(user)
-    end
+      visit new_question_path
 
-    scenario "can populate reward on Question's creation" do
-      visit questions_path
-      click_on 'Ask question'
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'text text text'
 
+    end
+
+    scenario "can populate reward on Question's creation" do
       within '.reward' do
         fill_in 'Name', with: 'Award name'
         attach_file 'Image', Rails.root.join('spec/fixtures/test_img.jpg')
@@ -33,10 +33,6 @@ feature 'User can add reward to question', "
     end
 
     scenario "can't create Question with invalid image" do
-      visit new_question_path
-      fill_in 'Title', with: 'Test question'
-      fill_in 'Body', with: 'text text text'
-
       within '.reward' do
         fill_in 'Name', with: 'Award name'
         attach_file 'Image', Rails.root.join('spec/spec_helper.rb')
