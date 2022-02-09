@@ -16,7 +16,7 @@ feature "User can view his Rewards", "
       click_on 'My rewards'
 
       rewards.each do |reward|
-        expect(page).to have_content reward.question.title
+        expect(page).to have_link reward.question.title, href: question_path(reward.question)
         expect(page).to have_content reward.name
         expect(page).to have_css("img[src*='#{reward.image.filename}']")
       end
