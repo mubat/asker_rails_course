@@ -7,7 +7,26 @@ feature "User can set his vote on a Answer", "
 " do
 
   describe 'Authenticated user' do
-    scenario "can set a vote"
+    given(:user) { create(:user) }
+    given(:question) { create(:question) }
+    given!(:answer) { create(:answer, question: question) }
+
+    background { login (user) }
+
+    scenario "can set a vote" do
+      visit questions_path(question)
+
+      within "#answer-#{answer.id}" do
+        expect(page).to have_link 'Like'
+        expect(page).to have_link 'Dislike'
+
+        click_on 'Like'
+
+        expect(page).to have_no_link 'Like'
+        expect(page).to have_no_link 'Dislike'
+      end
+    end
+
     scenario "can't set same vote twice"
     scenario "can't set a vote to his Answer"
     scenario "can remote his previously set vote"
