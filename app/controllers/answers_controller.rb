@@ -26,6 +26,13 @@ class AnswersController < ApplicationController
     render :update
   end
 
+  def like
+
+  end
+
+  def dislike
+
+  end
 
   def destroy
     answer.destroy if current_user.author_of?(answer)

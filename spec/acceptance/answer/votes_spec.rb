@@ -14,7 +14,7 @@ feature "User can set his vote on a Answer", "
     background { login (user) }
 
     scenario "can set a vote" do
-      visit questions_path(question)
+      visit question_path(question)
 
       within "#answer-#{answer.id}" do
         expect(page).to have_link 'Like'
