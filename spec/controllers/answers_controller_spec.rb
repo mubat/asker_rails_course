@@ -153,4 +153,28 @@ RSpec.describe AnswersController, type: :controller do
     
   end
 
+  describe 'PATCH #like' do
+    describe 'like Answer' do
+      it 'by authenticated user' do
+        login(user)
+        expect { patch :like, params: { id: answer } }.to change(Vote, :count).by(1)
+      end
+
+      it "by Answer's author" do
+        login(answer_author)
+        expect { patch :like, params: { id: answer } }.to_not change(Vote, :count)
+      end
+
+      it 'by unauthenticated user' do
+        expect { patch :like, params: { id: answer } }.to_not change(Vote, :count)
+      end
+
+      it "renders 'like' view" do
+        login(user)
+        patch :like, params: { id: answer }, format: :js
+        expect(response).to render_template :like
+      end
+    end
+  end
+
 end
