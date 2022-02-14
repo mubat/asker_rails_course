@@ -169,10 +169,11 @@ RSpec.describe AnswersController, type: :controller do
         expect { patch :like, params: { id: answer } }.to_not change(Vote, :count)
       end
 
-      it "renders 'like' view" do
+      it 'answer with JSON' do
         login(user)
         patch :like, params: { id: answer }, format: :js
-        expect(response).to render_template :like
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body['degree']).to eq 'like'
       end
     end
   end

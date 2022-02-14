@@ -24,6 +24,13 @@ class Answer < ApplicationRecord
     end
   end
 
+  def like(user)
+    vote = votes.find_or_create_by(user: user)
+    vote.like
+    vote.save
+    vote
+  end
+
   private 
 
   def set_nil_for_false
