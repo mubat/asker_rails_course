@@ -89,7 +89,7 @@ RSpec.describe AnswersController, type: :controller do
         other_user = create(:user)
         login(other_user)
 
-        patch :update, params: { id: answer, answer: {body: 'new body'} }, format: :js
+        patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
 
         answer.reload
         expect(answer.body).to_not eq 'new body'
@@ -123,13 +123,13 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #mark_best' do
 
     describe 'make answer best' do
-      it "by unauthenticated user" do
+      it 'by unauthenticated user' do
         patch :mark_best, params: { id: answer }, format: :js
 
         answer.reload
         expect(answer.is_best).to be_nil
       end
-      
+
       it "by question's author" do
         login(user)
 
@@ -143,14 +143,14 @@ RSpec.describe AnswersController, type: :controller do
         other_user = create(:user)
         other_answer = create(:answer, question: question, user: other_user, is_best: nil)
         login(other_user)
-        
-        patch :update, params: { id: other_answer, answer: {is_best: true} }, format: :js
+
+        patch :update, params: { id: other_answer, answer: { is_best: true } }, format: :js
 
         answer.reload
         expect(answer.is_best).to be_falsey
       end
     end
-    
+
   end
 
   describe 'PATCH #like' do
