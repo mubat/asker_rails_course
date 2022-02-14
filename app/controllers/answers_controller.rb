@@ -27,11 +27,11 @@ class AnswersController < ApplicationController
   end
 
   def like
-
+    answer.votes.find_or_create_by(user: current_user).like unless current_user.author_of?(answer)
   end
 
   def dislike
-
+    answer.votes.find_or_create_by(user: current_user).dislike unless current_user.author_of?(answer)
   end
 
   def destroy
