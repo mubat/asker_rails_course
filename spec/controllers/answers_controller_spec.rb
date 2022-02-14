@@ -163,6 +163,8 @@ RSpec.describe AnswersController, type: :controller do
       it "by Answer's author" do
         login(answer_author)
         expect { patch :like, params: { id: answer } }.to_not change(Vote, :count)
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body['errors']).to include "User can't vote on his Answer"
       end
 
       it 'by unauthenticated user' do

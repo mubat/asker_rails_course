@@ -32,7 +32,7 @@ class AnswersController < ApplicationController
     if vote.valid?
       render json: vote, status: :created
     else
-      render json: vote.errors.full_messages, status: :unprocessable_entity
+      render json: { errors: vote.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
