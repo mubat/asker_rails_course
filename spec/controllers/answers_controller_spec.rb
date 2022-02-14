@@ -169,6 +169,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'by unauthenticated user' do
         expect { patch :like, params: { id: answer } }.to_not change(Vote, :count)
+        expect(response).to redirect_to new_user_session_path
       end
 
       it 'answer with JSON' do
