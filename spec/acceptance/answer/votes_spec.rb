@@ -13,7 +13,7 @@ feature "User can set his vote on a Answer", "
 
     background { login (user) }
 
-    scenario "can set a vote" do
+    scenario "can set a vote", js: true do
       visit question_path(question)
 
       within "#answer-#{answer.id}" do

@@ -32,6 +32,10 @@ class Answer < ApplicationRecord
     register_vote(user,:dislike)
   end
 
+  def vote_of(user)
+    votes.where(user: user).take
+  end
+
   private
 
   def set_nil_for_false
