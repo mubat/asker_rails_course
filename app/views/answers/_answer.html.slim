@@ -1,8 +1,8 @@
 -if answer.persisted?
   div id="answer-#{answer.id}" class="answer-data#{' answer-best' if answer.is_best}"
     .vote
-      = link_to 'Like', answer_like_path(answer), method: :patch, remote: true
-      = link_to 'Dislike', answer_like_path(answer), method: :patch, remote: true
+      = link_to 'Like', like_answer_path(answer), method: :patch, remote: true
+      = link_to 'Dislike', dislike_answer_path(answer), method: :patch, remote: true
 
     div class='best-mark' = "Best answer" if answer.is_best
     div= answer.body
