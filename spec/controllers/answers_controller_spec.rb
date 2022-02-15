@@ -181,4 +181,32 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'PATCH #dislike' do
+    describe 'like Answer' do
+      it 'by authenticated user' do
+        login(user)
+        expect { patch :dislike, params: { id: answer } }.to change(Vote, :count).by(1)
+      end
+
+      it "by Answer's author" do
+        login(answer_author)
+        expect { patch :dislike, params: { id: answer } }.to_not change(Vote, :count)
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body['errors']).to include "User can't vote on his Answer"
+      end
+
+      it 'by unauthenticated user' do
+        expect { patch :dislike, params: { id: answer } }.to_not change(Vote, :count)
+        expect(response).to redirect_to new_user_session_path
+      end
+
+      it 'answer with JSON' do
+        login(user)
+        patch :dislike, params: { id: answer }, format: :js
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body['degree']).to eq 'dislike'
+      end
+    end
+  end
+
 end

@@ -37,7 +37,13 @@ class AnswersController < ApplicationController
   end
 
   def dislike
-    answer.votes.find_or_create_by(user: current_user).dislike unless current_user.author_of?(answer)
+    vote = answer.dislike(current_user)
+
+    if vote.valid?
+      render json: vote, status: :created
+    else
+      render json: { errors: vote.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def destroy

@@ -25,15 +25,23 @@ class Answer < ApplicationRecord
   end
 
   def like(user)
-    vote = votes.find_or_create_by(user: user)
-    vote.like
-    vote.save
-    vote
+    register_vote(user,:like)
+  end
+
+  def dislike(user)
+    register_vote(user,:dislike)
   end
 
   private
 
   def set_nil_for_false
     @is_best = nil unless @is_best
+  end
+
+  def register_vote(user, status)
+    vote = votes.find_or_create_by(user: user)
+    vote.send(status)
+    vote.save
+    vote
   end
 end
