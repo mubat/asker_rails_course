@@ -34,7 +34,15 @@ feature "User can set his vote on a Answer", "
       end
     end
 
-    scenario "can't set a vote to his Answer"
+    scenario "can't set a vote to his Answer" do
+      user_answer = create(:answer, question: question, user: user)
+      visit question_path(question)
+
+      within "#answer-#{user_answer.id}" do
+        expect(page).to have_no_link 'Like'
+        expect(page).to have_no_link 'Dislike'
+      end
+    end
     scenario "can remote his previously set vote"
   end
 
