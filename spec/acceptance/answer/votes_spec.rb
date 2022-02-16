@@ -26,7 +26,7 @@ feature "User can set his vote on a Answer", "
         expect(page).to have_no_link 'Like'
         expect(page).to have_no_link 'Dislike'
 
-        driver.navigate.refresh
+        visit current_path
 
         # check links on voted Answers after loading page
         expect(page).to have_no_link 'Like'
