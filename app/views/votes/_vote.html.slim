@@ -1,0 +1,4 @@
+- unless current_user.author_of?(answer)
+  .vote class="#{'hidden' if answer.vote_of(current_user).present?}"
+    = link_to 'Like', like_answer_path(answer), method: :patch, remote: true, class: "vote-link"
+    = link_to 'Dislike', dislike_answer_path(answer), method: :patch, remote: true, class: "vote-link"
