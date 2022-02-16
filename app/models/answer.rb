@@ -36,6 +36,10 @@ class Answer < ApplicationRecord
     votes.where(user: user).take
   end
 
+  def rating
+    votes.sum(&:degree_before_type_cast)
+  end
+
   private
 
   def set_nil_for_false
