@@ -1,19 +1,20 @@
 require 'rails_helper'
 
-feature "User can set his vote on a Answer", "
+feature 'User can set his vote on a Answer', "
   In order to increase rating of the Answer
   As an authenticated user
   I'd like to be able to set my like/dislike for each Answer
 " do
+
+  given!(:answer) { create(:answer, question: question) }
   given(:question) { create(:question) }
 
   describe 'Authenticated user' do
     given(:user) { create(:user) }
-    given!(:answer) { create(:answer, question: question) }
 
     background { login (user) }
 
-    scenario "can set a vote", js: true do
+    scenario 'can set a vote', js: true do
       visit question_path(question)
 
       within "#answer-#{answer.id}" do
@@ -43,7 +44,7 @@ feature "User can set his vote on a Answer", "
         expect(page).to have_no_link 'Dislike'
       end
     end
-    scenario "can remove his previously set vote", js: true do
+    scenario 'can remove his previously set vote', js: true do
       create(:vote, votable: answer, user: user)
       visit question_path(question)
 
@@ -68,6 +69,24 @@ feature "User can set his vote on a Answer", "
     expect(page).to have_no_link 'Reset vote'
   end
 
-  scenario 'User can view Answer rating'
+  describe 'User can view Answer rating' do
+    scenario 'when several votes presents' do
+      create_list(:vote, 8, votable: answer, degree: :like)
+      create_list(:vote, 5, votable: answer, degree: :dislike)
+      visit question_path(question)
+
+      within "#answer-#{answer.id}" do
+        expect(page).to have_content 'Rating: 3' # 8 likes - 5 dislikes
+      end
+    end
+
+    scenario 'when no one votes presents' do
+      visit question_path(question)
+
+      within "#answer-#{answer.id}" do
+        expect(page).to have_content 'Rating: 0'
+      end
+    end
+  end
 end
 
