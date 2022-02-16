@@ -43,7 +43,21 @@ feature "User can set his vote on a Answer", "
         expect(page).to have_no_link 'Dislike'
       end
     end
-    scenario "can remote his previously set vote"
+    scenario "can remove his previously set vote", js: true do
+      create(:vote, votable: answer, user: user)
+      visit question_path(question)
+
+      within "#answer-#{answer.id}" do
+        expect(page).to have_no_link 'Like'
+        expect(page).to have_no_link 'Dislike'
+
+        click_on 'Reset vote'
+
+        expect(page).to have_link 'Like'
+        expect(page).to have_link 'Dislike'
+        expect(page).to have_no_link 'Reset vote'
+      end
+    end
   end
 
   scenario "Unauthorized user can't set a vote"
