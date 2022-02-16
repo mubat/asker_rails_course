@@ -22,12 +22,18 @@ feature "User can set his vote on a Answer", "
 
         click_on 'Like'
 
+        # check links on voted Answers without reload page
+        expect(page).to have_no_link 'Like'
+        expect(page).to have_no_link 'Dislike'
+
+        driver.navigate.refresh
+
+        # check links on voted Answers after loading page
         expect(page).to have_no_link 'Like'
         expect(page).to have_no_link 'Dislike'
       end
     end
 
-    scenario "can't set same vote twice"
     scenario "can't set a vote to his Answer"
     scenario "can remote his previously set vote"
   end
