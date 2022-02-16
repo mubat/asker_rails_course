@@ -1,6 +1,6 @@
 -if answer.persisted?
   div id="answer-#{answer.id}" class="answer-data#{' answer-best' if answer.is_best}"
-    = render 'votes/vote', vote: answer.vote_of(current_user)
+    = render 'votes/vote', vote: answer.vote_of(current_user), votable: answer
 
     div class='best-mark' = "Best answer" if answer.is_best
     div= answer.body
