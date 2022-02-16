@@ -5,10 +5,10 @@ feature "User can set his vote on a Answer", "
   As an authenticated user
   I'd like to be able to set my like/dislike for each Answer
 " do
+  given(:question) { create(:question) }
 
   describe 'Authenticated user' do
     given(:user) { create(:user) }
-    given(:question) { create(:question) }
     given!(:answer) { create(:answer, question: question) }
 
     background { login (user) }
@@ -60,7 +60,13 @@ feature "User can set his vote on a Answer", "
     end
   end
 
-  scenario "Unauthorized user can't set a vote"
+  scenario "Unauthorized user can't set a vote" do
+    visit question_path(question)
+
+    expect(page).to have_no_link 'Like'
+    expect(page).to have_no_link 'Dislike'
+    expect(page).to have_no_link 'Reset vote'
+  end
 
   scenario 'User can view Answer rating'
 end
