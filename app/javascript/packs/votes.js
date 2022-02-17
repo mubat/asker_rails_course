@@ -1,12 +1,13 @@
 $(document).on('turbolinks:load', function () {
-    let voteContainer = $('.vote-container');
-    voteContainer.on('ajax:success', '.vote-link', (event) => {
+    $('.answer-data').on('ajax:success', '.vote-link', (event) => {
+        let answerContainer = $(event.delegateTarget);
+
         if (event.detail[0].vote.degree) {
-            voteContainer.find('.vote').addClass('hidden');
-            voteContainer.find('.vote-cancel').removeClass('hidden');
-            voteContainer.find('.vote-reset-link').attr('href', '/votes/' + event.detail[0].vote.id);
+            answerContainer.find('.vote').addClass('hidden');
+            answerContainer.find('.vote-cancel').removeClass('hidden');
+            answerContainer.find('.vote-reset-link').attr('href', '/votes/' + event.detail[0].vote.id);
         }
-        voteContainer.parent('.answer-data').find('.rating-value').text(event.detail[0].rating);
+        answerContainer.find('.rating-value').text(event.detail[0].rating);
 
     }).on('ajax:error', '.vote-link,.vote-reset-link', (event) => {
         let alertData = event.detail[0];
@@ -19,8 +20,10 @@ $(document).on('turbolinks:load', function () {
 
         $('.alert').html(alertData);
     }).on('ajax:success', '.vote-reset-link', (event) => {
-        voteContainer.find('.vote-cancel').addClass('hidden');
-        voteContainer.find('.vote').removeClass('hidden');
-        voteContainer.parent('.answer-data').find('.rating-value').text(event.detail[0].rating);
+        let answerContainer = $(event.delegateTarget);
+
+        answerContainer.find('.vote-cancel').addClass('hidden');
+        answerContainer.find('.vote').removeClass('hidden');
+        answerContainer.find('.rating-value').text(event.detail[0].rating);
     })
 });
