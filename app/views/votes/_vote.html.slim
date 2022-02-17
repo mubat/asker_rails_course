@@ -5,3 +5,7 @@
       = link_to 'Dislike', polymorphic_path(votable, action: :dislike), method: :patch, remote: true, class: "vote-link"
     .vote-cancel class="#{'hidden' unless vote.present? }"
       = link_to 'Reset vote', vote ? vote_path(vote) : '#', method: :delete, remote: true, class: "vote-reset-link"
+.rating
+  | Rating:
+  '
+  span.rating-value #{votable.rating}
