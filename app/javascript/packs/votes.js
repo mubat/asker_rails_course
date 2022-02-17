@@ -1,11 +1,13 @@
 $(document).on('turbolinks:load', function () {
     let voteContainer = $('.vote-container');
     voteContainer.on('ajax:success', '.vote-link', (event) => {
-        if (event.detail[0].degree) {
+        if (event.detail[0].vote.degree) {
             voteContainer.find('.vote').addClass('hidden');
             voteContainer.find('.vote-cancel').removeClass('hidden');
-            voteContainer.find('.vote-reset-link').attr('href', '/votes/' + event.detail[0].id);
+            voteContainer.find('.vote-reset-link').attr('href', '/votes/' + event.detail[0].vote.id);
         }
+        voteContainer.parent('.answer-data').find('.rating-value').text(event.detail[0].rating);
+
     }).on('ajax:error', '.vote-link,.vote-reset-link', (event) => {
         let alertData = event.detail[0];
 
@@ -19,5 +21,6 @@ $(document).on('turbolinks:load', function () {
     }).on('ajax:success', '.vote-reset-link', (event) => {
         voteContainer.find('.vote-cancel').addClass('hidden');
         voteContainer.find('.vote').removeClass('hidden');
+        voteContainer.parent('.answer-data').find('.rating-value').text(event.detail[0].rating);
     })
 });

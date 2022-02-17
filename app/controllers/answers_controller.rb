@@ -30,7 +30,7 @@ class AnswersController < ApplicationController
     vote = answer.like(current_user)
 
     if vote.valid?
-      render json: vote, status: :created
+      render json: { vote: vote, rating: answer.rating }, status: :created
     else
       render json: { errors: vote.errors.full_messages }, status: :unprocessable_entity
     end
@@ -40,7 +40,7 @@ class AnswersController < ApplicationController
     vote = answer.dislike(current_user)
 
     if vote.valid?
-      render json: vote, status: :created
+      render json: { vote: vote, rating: answer.rating }, status: :created
     else
       render json: { errors: vote.errors.full_messages }, status: :unprocessable_entity
     end

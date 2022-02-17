@@ -61,7 +61,7 @@ feature 'User can set his vote on a Answer', "
     end
 
     describe 'changes a rating' do
-      scenario 'after set a vote' do
+      scenario 'after set a vote', js: true do
         visit question_path(question)
 
         within "#answer-#{answer.id}" do
@@ -71,7 +71,7 @@ feature 'User can set his vote on a Answer', "
         end
       end
 
-      scenario 'after remove his vote' do
+      scenario 'after remove his vote', js: true do
         create(:vote, votable: answer, user: user, degree: :like)
         visit question_path(question)
 
