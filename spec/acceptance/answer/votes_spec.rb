@@ -59,6 +59,29 @@ feature 'User can set his vote on a Answer', "
         expect(page).to have_no_link 'Reset vote'
       end
     end
+
+    describe 'changes a rating' do
+      scenario 'after set a vote' do
+        visit question_path(question)
+
+        within "#answer-#{answer.id}" do
+          expect(page).to have_content 'Rating: 0'
+          click_on 'Dislike'
+          expect(page).to have_content 'Rating: -1'
+        end
+      end
+
+      scenario 'after remove his vote' do
+        create(:vote, votable: answer, user: user, degree: :like)
+        visit question_path(question)
+
+        within "#answer-#{answer.id}" do
+          expect(page).to have_content 'Rating: 1'
+          click_on 'Reset vote'
+          expect(page).to have_content 'Rating: 0'
+        end
+      end
+    end
   end
 
   scenario "Unauthorized user can't set a vote" do
