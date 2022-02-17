@@ -37,7 +37,7 @@ class Answer < ApplicationRecord
   end
 
   def rating
-    votes.sum(&:degree_before_type_cast)
+    votes.sum(:degree)
   end
 
   private
