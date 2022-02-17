@@ -177,6 +177,7 @@ RSpec.describe AnswersController, type: :controller do
         patch :like, params: { id: answer }, format: :js
         parsed_body = JSON.parse(response.body)
         expect(parsed_body['degree']).to eq 'like'
+        expect(parsed_body['rating']).to eq 1
       end
     end
   end
@@ -205,6 +206,7 @@ RSpec.describe AnswersController, type: :controller do
         patch :dislike, params: { id: answer }, format: :js
         parsed_body = JSON.parse(response.body)
         expect(parsed_body['degree']).to eq 'dislike'
+        expect(parsed_body['rating']).to eq(-1)
       end
     end
   end
