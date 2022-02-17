@@ -6,7 +6,7 @@ class VotesController < ApplicationController
 
     if current_user.author_of?(vote) && !current_user.author_of?(vote.votable)
       vote.destroy
-      render json: { vote: vote }, status: :ok
+      render json: { vote: vote, rating: vote.votable.rating }, status: :ok
     else
       render json: { errors: 'Forbidden' }, status: :forbidden
     end
