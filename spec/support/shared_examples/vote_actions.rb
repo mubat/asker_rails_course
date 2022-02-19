@@ -2,17 +2,17 @@ require 'rails_helper'
 
 RSpec.shared_examples "VoteActions" do
   describe 'PATCH #like' do
-    describe 'like Answer' do
+    describe 'like Resource' do
       it 'by authenticated user' do
         login(user)
         expect { patch :like, params: { id: resource } }.to change(Vote, :count).by(1)
       end
 
-      it "by Answer's author" do
+      it "by Resource's author" do
         login(resource_author)
         expect { patch :like, params: { id: resource } }.to_not change(Vote, :count)
         parsed_body = JSON.parse(response.body)
-        expect(parsed_body['errors']).to include "User can't vote on his Answer"
+        expect(parsed_body['errors']).to include "User can't vote on his #{resource.class}"
       end
 
       it 'by unauthenticated user' do
@@ -31,17 +31,17 @@ RSpec.shared_examples "VoteActions" do
   end
 
   describe 'PATCH #dislike' do
-    describe 'like Answer' do
+    describe 'like Resource' do
       it 'by authenticated user' do
         login(user)
         expect { patch :dislike, params: { id: resource } }.to change(Vote, :count).by(1)
       end
 
-      it "by Answer's author" do
+      it "by Resource's author" do
         login(resource_author)
         expect { patch :dislike, params: { id: resource } }.to_not change(Vote, :count)
         parsed_body = JSON.parse(response.body)
-        expect(parsed_body['errors']).to include "User can't vote on his Answer"
+        expect(parsed_body['errors']).to include "User can't vote on his #{resource.class}"
       end
 
       it 'by unauthenticated user' do
