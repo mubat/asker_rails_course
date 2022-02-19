@@ -12,7 +12,7 @@ feature 'User can set his vote on a Question', "
 
     background { login (user) }
 
-    scenario 'can set a vote' do
+    scenario 'can set a vote', js: true do
       visit question_path(question)
 
       within '.question-data' do
@@ -21,13 +21,13 @@ feature 'User can set his vote on a Question', "
 
         click_on 'Like'
 
-        # check links on voted Answers without reload page
+        # check links on voted Question without reload page
         expect(page).to have_no_link 'Like'
         expect(page).to have_no_link 'Dislike'
 
         visit current_path
 
-        # check links on voted Answers after loading page
+        # check links on voted Question after loading page
         expect(page).to have_no_link 'Like'
         expect(page).to have_no_link 'Dislike'
       end
