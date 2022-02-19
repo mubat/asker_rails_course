@@ -153,62 +153,8 @@ RSpec.describe AnswersController, type: :controller do
 
   end
 
-  describe 'PATCH #like' do
-    describe 'like Answer' do
-      it 'by authenticated user' do
-        login(user)
-        expect { patch :like, params: { id: answer } }.to change(Vote, :count).by(1)
-      end
-
-      it "by Answer's author" do
-        login(answer_author)
-        expect { patch :like, params: { id: answer } }.to_not change(Vote, :count)
-        parsed_body = JSON.parse(response.body)
-        expect(parsed_body['errors']).to include "User can't vote on his Answer"
-      end
-
-      it 'by unauthenticated user' do
-        expect { patch :like, params: { id: answer } }.to_not change(Vote, :count)
-        expect(response).to redirect_to new_user_session_path
-      end
-
-      it 'answer with JSON' do
-        login(user)
-        patch :like, params: { id: answer }, format: :js
-        parsed_body = JSON.parse(response.body)
-        expect(parsed_body['vote']['degree']).to eq 'like'
-        expect(parsed_body['rating']).to eq 1
-      end
-    end
-  end
-
-  describe 'PATCH #dislike' do
-    describe 'like Answer' do
-      it 'by authenticated user' do
-        login(user)
-        expect { patch :dislike, params: { id: answer } }.to change(Vote, :count).by(1)
-      end
-
-      it "by Answer's author" do
-        login(answer_author)
-        expect { patch :dislike, params: { id: answer } }.to_not change(Vote, :count)
-        parsed_body = JSON.parse(response.body)
-        expect(parsed_body['errors']).to include "User can't vote on his Answer"
-      end
-
-      it 'by unauthenticated user' do
-        expect { patch :dislike, params: { id: answer } }.to_not change(Vote, :count)
-        expect(response).to redirect_to new_user_session_path
-      end
-
-      it 'answer with JSON' do
-        login(user)
-        patch :dislike, params: { id: answer }, format: :js
-        parsed_body = JSON.parse(response.body)
-        expect(parsed_body['vote']['degree']).to eq 'dislike'
-        expect(parsed_body['rating']).to eq(-1)
-      end
-    end
-  end
+  let!(:resource_author) { answer_author }
+  let!(:resource) { answer }
+  it_behaves_like 'VoteActions'
 
 end
