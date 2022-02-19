@@ -113,13 +113,13 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to redirect_to :question
       end
 
-      it 'allows to update via JS' do 
+      it 'allows to update via JS' do
         patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
         question.reload
 
         expect(question.title).to eq 'new title'
         expect(question.body).to eq 'new body'
-    end
+      end
     end
     context 'with invalid attributes' do
       before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
@@ -185,4 +185,9 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  let!(:resource_author) { question.user }
+  let!(:resource) { question }
+  it_behaves_like 'VoteActions'
+
 end
