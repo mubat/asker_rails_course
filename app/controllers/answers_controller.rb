@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+  include VoteActions
+
   before_action :authenticate_user!
 
   def create
@@ -24,26 +26,6 @@ class AnswersController < ApplicationController
     end
 
     render :update
-  end
-
-  def like
-    vote = answer.like(current_user)
-
-    if vote.valid?
-      render json: { vote: vote, rating: answer.rating }, status: :created
-    else
-      render json: { errors: vote.errors.full_messages }, status: :unprocessable_entity
-    end
-  end
-
-  def dislike
-    vote = answer.dislike(current_user)
-
-    if vote.valid?
-      render json: { vote: vote, rating: answer.rating }, status: :created
-    else
-      render json: { errors: vote.errors.full_messages }, status: :unprocessable_entity
-    end
   end
 
   def destroy
