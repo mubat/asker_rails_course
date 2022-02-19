@@ -1,8 +1,9 @@
 class Answer < ApplicationRecord
+  include WithVotes
+
   belongs_to :question
   belongs_to :user
 
-  has_many :votes, as: :votable, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
   accepts_nested_attributes_for :links, reject_if: :all_blank
 
@@ -24,32 +25,9 @@ class Answer < ApplicationRecord
     end
   end
 
-  def like(user)
-    register_vote(user,:like)
-  end
-
-  def dislike(user)
-    register_vote(user,:dislike)
-  end
-
-  def vote_of(user)
-    votes.where(user: user).take
-  end
-
-  def rating
-    votes.sum(:degree)
-  end
-
   private
 
   def set_nil_for_false
     @is_best = nil unless @is_best
-  end
-
-  def register_vote(user, status)
-    vote = votes.find_or_create_by(user: user)
-    vote.send(status)
-    vote.save
-    vote
   end
 end
