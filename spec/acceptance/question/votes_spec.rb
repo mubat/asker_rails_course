@@ -12,7 +12,26 @@ feature 'User can set his vote on a Question', "
 
     background { login (user) }
 
-    scenario 'can set a vote'
+    scenario 'can set a vote' do
+      visit question_path(question)
+
+      within '.question-data' do
+        expect(page).to have_link 'Like'
+        expect(page).to have_link 'Dislike'
+
+        click_on 'Like'
+
+        # check links on voted Answers without reload page
+        expect(page).to have_no_link 'Like'
+        expect(page).to have_no_link 'Dislike'
+
+        visit current_path
+
+        # check links on voted Answers after loading page
+        expect(page).to have_no_link 'Like'
+        expect(page).to have_no_link 'Dislike'
+      end
+    end
 
     scenario "can't set a vote to his Question"
 
