@@ -2,6 +2,8 @@
   h1= question.title
   p= question.body
 
+  = render 'votes/vote', vote: question.vote_of(current_user), votable: question
+
   .files
     -if question.files.attached?
       = render partial: 'attachments/attachment', collection: question.files
