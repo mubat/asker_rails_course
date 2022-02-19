@@ -18,6 +18,6 @@ class Vote < ApplicationRecord
   private
 
   def validate_comparison_user
-    errors.add(:user, "can't vote on his Answer") if user && user == votable.user
+    errors.add(:user, "can't vote on his #{votable.class}") if user && user == votable.user
   end
 end
