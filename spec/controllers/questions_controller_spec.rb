@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
-  let(:question) { create(:question, user: user) }
+  let(:question) { create(:question) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
@@ -84,7 +84,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'PATCH #update' do
     let!(:question_with_file) { create(:question, user: user, files: [fixture_file_upload("#{Rails.root}/spec/rails_helper.rb")]) }
 
-    before { login(user) }
+    before { login(question.user) }
 
     context 'with valid attributes' do
       it 'assigns the requested question to @question' do
@@ -186,8 +186,8 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  let!(:resource_author) { question.user }
-  let!(:resource) { question }
+  let(:resource_author) { question.user }
+  let(:resource) { question }
   it_behaves_like 'VoteActions'
 
 end

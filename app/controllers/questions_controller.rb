@@ -1,4 +1,5 @@
 class QuestionsController < ApplicationController
+  include VoteActions
 
   before_action :authenticate_user!, except: %w[index show]
 
