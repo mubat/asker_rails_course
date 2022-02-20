@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+  include VoteActions
+
   before_action :authenticate_user!
 
   def create
@@ -25,7 +27,6 @@ class AnswersController < ApplicationController
 
     render :update
   end
-
 
   def destroy
     answer.destroy if current_user.author_of?(answer)

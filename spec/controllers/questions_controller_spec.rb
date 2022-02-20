@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
-  let(:question) { create(:question, user: user) }
+  let(:question) { create(:question) }
+  let(:resource_author) { question.user }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
@@ -82,9 +83,9 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    let!(:question_with_file) { create(:question, user: user, files: [fixture_file_upload("#{Rails.root}/spec/rails_helper.rb")]) }
+    let!(:question_with_file) { create(:question, user: resource_author, files: [fixture_file_upload("#{Rails.root}/spec/rails_helper.rb")]) }
 
-    before { login(user) }
+    before { login(resource_author) }
 
     context 'with valid attributes' do
       it 'assigns the requested question to @question' do
@@ -113,13 +114,13 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to redirect_to :question
       end
 
-      it 'allows to update via JS' do 
+      it 'allows to update via JS' do
         patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
         question.reload
 
         expect(question.title).to eq 'new title'
         expect(question.body).to eq 'new body'
-    end
+      end
     end
     context 'with invalid attributes' do
       before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
@@ -185,4 +186,8 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  let(:resource) { question }
+  it_behaves_like 'VoteActions'
+
 end

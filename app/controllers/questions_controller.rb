@@ -1,4 +1,5 @@
 class QuestionsController < ApplicationController
+  include VoteActions
 
   before_action :authenticate_user!, except: %w[index show]
 
@@ -30,7 +31,7 @@ class QuestionsController < ApplicationController
   def update
     update_status = current_user.author_of?(question) ? question.update(question_params) : false
     respond_to do |format|
-      format.html  do 
+      format.html do
         if update_status
           redirect_to @question
         else
@@ -40,7 +41,7 @@ class QuestionsController < ApplicationController
       end
       format.js { render :update }
     end
-    
+
   end
 
   helper_method :question
