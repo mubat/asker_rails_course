@@ -22,4 +22,6 @@ Rails.application.routes.draw do
   resources :links, only: :destroy
   resources :rewards, only: :index
   resources :votes, only: :destroy
+
+  mount ActionCable.server => '/server'
 end
