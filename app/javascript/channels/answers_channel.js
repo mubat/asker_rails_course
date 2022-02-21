@@ -7,6 +7,9 @@ consumer.subscriptions.create("AnswersChannel", {
         if (!question) {
             return;
         }
-        this.perform('follow_question', { id: question.data('question-id') })
+        console.log('Connection result ', this.perform('follow_answers_for_question', { id: question.data('question-id') }))
     },
+    received(data) {
+        console.log('Received', data)
+    }
 });
