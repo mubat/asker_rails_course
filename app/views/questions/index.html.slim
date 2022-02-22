@@ -1,4 +1,4 @@
 p= link_to 'Ask question', new_question_path
-- if @questions.any?
-  .questions-list
+.questions-list
+  - if @questions.any?
     = render @questions
