@@ -39,10 +39,13 @@ class AnswersController < ApplicationController
   def publish_answer
     return unless answer.valid?
     AnswersChannel.broadcast_to "question/#{answer.question.id}/answers",
-                                 ApplicationController.render(
-                                   partial: 'answers/answer',
-                                   locals: { answer: answer, current_user: current_user }
-                                 )
+                                {
+                                  user_id: current_user.id,
+                                  body: ApplicationController.render(
+                                    partial: 'answers/answer',
+                                    locals: { answer: answer, question: question, current_user: nil }
+                                  )
+                                }
   end
 
   helper_method :question, :answer
