@@ -15,12 +15,18 @@ RSpec.describe CommentsController, type: :controller do
 
           it 'new Comment links to question' do
             expect do
-              post :create, format: :js, params: { comment: attributes_for(:comment, commentable: question) }
+              post :create, format: :js, params: {
+                comment: attributes_for(:comment)
+                           .merge({ commentable_type: question.class, commentable_id: question.id })
+              }
             end.to change(question.comments, :count).by(1)
           end
 
           it 'renders template `create`' do
-            post :create, format: :js, params: { comment: attributes_for(:comment, commentable: question) }
+            post :create, format: :js, params: {
+              comment: attributes_for(:comment)
+                         .merge({ commentable_type: question.class, commentable_id: question.id })
+            }
             expect(response).to render_template :create
           end
 
@@ -30,12 +36,18 @@ RSpec.describe CommentsController, type: :controller do
 
           it 'don\'t saves a new invalid Comment' do
             expect do
-              post :create, format: :js, params: { comment: attributes_for(:comment, :empty_body) }
+              post :create, format: :js, params: {
+                comment: attributes_for(:comment, :empty_body)
+                           .merge({ commentable_type: question.class, commentable_id: question.id })
+              }
             end.to_not change(Comment, :count)
           end
 
           it 'should render question `create` template' do
-            post :create, format: :js, params: { comment: attributes_for(:comment, :empty_body) }
+            post :create, format: :js, params: {
+              comment: attributes_for(:comment, :empty_body)
+                         .merge({ commentable_type: question.class, commentable_id: question.id })
+            }
             expect(response).to render_template :create
           end
 
@@ -46,13 +58,19 @@ RSpec.describe CommentsController, type: :controller do
 
         it 'should not create new answer' do
           expect do
-            post :create, format: :js, params: { comment: attributes_for(:comment) }
+            post :create, format: :js, params: {
+              comment: attributes_for(:comment)
+                         .merge({ commentable_type: question.class, commentable_id: question.id })
+            }
           end.to_not change(Comment, :count)
         end
 
         it 'should return login page' do
-          post :create, format: :js, params: { comment: attributes_for(:comment) }
-          expect(response).to redirect_to new_user_session_path
+          post :create, format: :js, params: {
+            comment: attributes_for(:comment)
+                       .merge({ commentable_type: question.class, commentable_id: question.id })
+          }
+          expect(response).to have_http_status 401
         end
 
       end

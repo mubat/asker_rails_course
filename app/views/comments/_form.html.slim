@@ -1,6 +1,9 @@
+.answer-errors
+  = render 'shared/errors', resource: comment
+
 = form_with model: comment, local: false, class: 'new-comment' do |f|
-  = f.hidden_field :commentable_id, value: commentable.class
-  = f.hidden_field :commentable_type, value: commentable.id
+  = f.hidden_field :commentable_type, value: commentable.class
+  = f.hidden_field :commentable_id, value: commentable.id
   = f.label :body, 'Comment'
   = f.text_area :body
   = f.submit 'Add comment'

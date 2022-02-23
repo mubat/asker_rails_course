@@ -1,4 +1,4 @@
-.question-data data-question-id="#{question.id  }"
+.question-data id="question-#{question.id}" data-question-id="#{question.id  }"
   h1= question.title
   p= question.body
 
@@ -11,7 +11,7 @@
   = render 'links/list', resource: question
 
   .comments-container
-    = render question.comments
+    = render 'comments/list', comments: question.comments
     = render 'comments/form', comment: question.comments.new, commentable: question
 
   -if current_user&.author_of?(question)
