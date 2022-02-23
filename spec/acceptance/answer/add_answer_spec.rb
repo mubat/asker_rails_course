@@ -48,39 +48,35 @@ feature "Authorized user can add answer on the question's view", "
     context 'multiple sessions', js: true do
       describe 'Answer appears' do
         scenario 'for authorized user' do
-          Capybara.using_session('creator') do
-            visit question_path(question)
-          end
-
           Capybara.using_session('watcher') do
-            login(create(:user))
             visit question_path(question)
           end
 
           Capybara.using_session('creator') do
-            within '.new_answer' do
+            login(user)
+            visit question_path(question)
+
+            within '.new-answer' do
               fill_in 'Answer', with: 'Test answer'
               attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+            end
 
-              click_on 'Answer it'
+            click_on 'Answer it'
 
-              within '.answers' do
-                expect(page).to have_content 'Test answer'
-                expect(page).to have_link 'rails_helper.rb'
-                expect(page).to have_link 'spec_helper.rb'
-              end
+            within '.answers' do
+              expect(page).to have_no_content 'Still no answer here'
+              expect(page).to have_content 'Test answer'
+              expect(page).to have_link 'rails_helper.rb'
+              expect(page).to have_link 'spec_helper.rb'
             end
           end
 
           Capybara.using_session('watcher') do
             within '.answers' do
+              expect(page).to have_no_content 'Still no answer here'
               expect(page).to have_content 'Test answer'
               expect(page).to have_link 'rails_helper.rb'
               expect(page).to have_link 'spec_helper.rb'
-              expect(page).to_not have_link 'Edit'
-              expect(page).to_not have_link 'Delete'
-              expect(page).to_not have_link 'Make answer best'
-              #TODO: add Comments validation
             end
           end
         end
@@ -96,17 +92,15 @@ feature "Authorized user can add answer on the question's view", "
           end
 
           Capybara.using_session('creator') do
-            within '.new_answer' do
+            within '.new-answer' do
               fill_in 'Answer', with: 'Test answer'
               attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+            end
 
-              click_on 'Answer it'
+            click_on 'Answer it'
 
-              within '.answers' do
-                expect(page).to have_content 'Test answer'
-                expect(page).to have_link 'rails_helper.rb'
-                expect(page).to have_link 'spec_helper.rb'
-              end
+            within '.answers' do
+              expect(page).to have_content 'Test answer'
             end
           end
 
@@ -115,10 +109,6 @@ feature "Authorized user can add answer on the question's view", "
               expect(page).to have_content 'Test answer'
               expect(page).to have_link 'rails_helper.rb'
               expect(page).to have_link 'spec_helper.rb'
-              expect(page).to_not have_link 'Edit'
-              expect(page).to_not have_link 'Delete'
-              expect(page).to_not have_link 'Make answer best'
-              #TODO: add Comments validation
             end
           end
         end
@@ -135,21 +125,20 @@ feature "Authorized user can add answer on the question's view", "
           end
 
           Capybara.using_session('creator') do
-            within '.new_answer' do
+            within '.new-answer' do
               fill_in 'Answer', with: 'Test answer'
+            end
 
-              click_on 'Answer it'
+            click_on 'Answer it'
 
-              within '.answers' do
-                expect(page).to have_content 'Test answer'
-              end
+            within '.answers' do
+              expect(page).to have_content 'Test answer'
             end
           end
 
           Capybara.using_session('question-owner') do
             within '.answers' do
               expect(page).to have_content 'Test answer'
-              expect(page).to have_link 'Make answer best'
               expect(page).to_not have_link 'Edit'
               expect(page).to_not have_link 'Delete'
             end
@@ -168,8 +157,8 @@ feature "Authorized user can add answer on the question's view", "
         end
 
         Capybara.using_session('creator') do
-          within '.new_answer' do
-            fill_in 'Body', with: 'Test text123-./'
+          within '.new-answer' do
+            fill_in 'Answer', with: 'Test text123-./'
             click_on 'Answer it'
           end
         end

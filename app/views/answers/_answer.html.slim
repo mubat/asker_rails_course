@@ -1,13 +1,13 @@
 -if answer.persisted?
   div id="answer-#{answer.id}" class="answer-data#{' answer-best' if answer.is_best}"
-    = render 'votes/vote', vote: answer.vote_of(current_user), votable: answer
+    = render 'votes/vote', vote: answer.vote_of(current_user), votable: answer, current_user: current_user
 
     div class='best-mark' = "Best answer" if answer.is_best
     div= answer.body
 
     - if answer.files.attached?
-      = render partial: 'attachments/attachment', collection: answer.files
-    = render 'links/list', resource: answer
+      = render partial: 'attachments/attachment', collection: answer.files,locals: { current_user: current_user }
+    = render 'links/list', resource: answer, current_user: current_user
 
     -if current_user&.author_of?(question)
       = link_to 'Make answer best', mark_best_answer_path(answer), method: :patch, class: "set-best-answer-link #{'hidden' if answer.is_best}", remote: true 
@@ -16,7 +16,7 @@
       div= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
 
       .answer-errors
-        = render 'shared/errors', resource: answer
+        = render 'shared/errors', resource: answer, current_user: current_user
       = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
         = f.label :body, 'Your answer'
         = f.text_area :body
