@@ -10,6 +10,10 @@
 
   = render 'links/list', resource: question
 
+  .comments-container
+    = render question.comments
+    = render 'comments/form', comment: question.comments.new, commentable: question
+
   -if current_user&.author_of?(question)
     = link_to 'Edit', '#', class: 'edit-question'
     = link_to 'Delete question', question, method: :delete
