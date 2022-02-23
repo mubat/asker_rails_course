@@ -11,8 +11,9 @@
   = render 'links/list', resource: question
 
   .comments-container
-    = render 'comments/list', comments: question.comments
-    = render 'comments/form', comment: question.comments.new, commentable: question
+    div Comments:
+    = render 'comments/list', comments: question.comments, current_user: current_user
+    = render 'comments/form', comment: question.comments.new, commentable: question, current_user: current_user
 
   -if current_user&.author_of?(question)
     = link_to 'Edit', '#', class: 'edit-question'

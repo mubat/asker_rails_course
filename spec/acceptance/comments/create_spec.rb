@@ -41,7 +41,7 @@ feature 'Authorized users can add Comments to Questions and Answers', "
         end
       end
 
-      context 'by multiple sessions' do
+      context 'by multiple sessions', js: true do
 
         scenario 'can see newly created Comment by other user without page reload' do
           Capybara.using_session('watcher') do
@@ -141,10 +141,10 @@ feature 'Authorized users can add Comments to Questions and Answers', "
 
     scenario 'can not add comment for Question and Answer' do
       expect(page).not_to have_link 'Add comment'
-      expect(page).not_to have_content 'Comment'
+      expect(page).not_to have_field :comment_body
     end
 
-    context 'by multiple sessions' do
+    context 'by multiple sessions', js: true do
 
       scenario 'can see newly created Comment by other user without page reload' do
         Capybara.using_session('watcher') do
