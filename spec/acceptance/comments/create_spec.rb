@@ -45,6 +45,7 @@ feature 'Authorized users can add Comments to Questions and Answers', "
     describe 'for Answer' do
       scenario 'can create new Comment' do
         answer = create(:answer, question: question)
+        visit question_path(question)
 
         within "#answer-#{answer.id} .comments-container" do
           expect(page).not_to have_content "Answer's comment"
@@ -59,6 +60,7 @@ feature 'Authorized users can add Comments to Questions and Answers', "
 
       scenario 'can create new Comment for his own Answer' do
         user_answer = create(:answer, question: question, user: user)
+        visit question_path(question)
 
         within "#answer-#{user_answer.id} .comments-container" do
           expect(page).not_to have_content "Answer's comment"
