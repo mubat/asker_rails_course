@@ -9,6 +9,10 @@
       = render partial: 'attachments/attachment', collection: answer.files,locals: { current_user: current_user }
     = render 'links/list', resource: answer, current_user: current_user
 
+    .comments-container
+      = render 'comments/list', comments: answer.comments
+      = render 'comments/form', comment: answer.comments.new, commentable: answer
+
     -if current_user&.author_of?(question)
       = link_to 'Make answer best', mark_best_answer_path(answer), method: :patch, class: "set-best-answer-link #{'hidden' if answer.is_best}", remote: true 
     -if current_user&.author_of?(answer)
