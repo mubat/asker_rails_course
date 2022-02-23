@@ -3,4 +3,4 @@
   ul
     - resource.links.each do |link|
       li id="link-#{link.id}"
-        = render link
+        = render link, current_user: current_user
