@@ -10,8 +10,6 @@ class Answer < ApplicationRecord
 
   has_many_attached :files
 
-  has_many :comments, dependent: :destroy, as: :commentable
-
   before_validation :set_nil_for_false # nil and FALSE are considered the same
 
   validates :body, presence: true

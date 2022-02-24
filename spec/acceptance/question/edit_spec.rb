@@ -17,7 +17,7 @@ feature 'User can edit his own question', "
 
     scenario "Can edit his question", js: true do
       within '.question-data' do
-        expect(page).to_not have_selector 'form'
+        expect(page).to_not have_selector 'form#form-edit-question'
 
         click_on 'Edit'
 
@@ -27,7 +27,7 @@ feature 'User can edit his own question', "
         fill_in 'Body', with: 'new body'
         click_on 'Save'
 
-        expect(page).to_not have_selector 'form'
+        expect(page).to_not have_selector 'form#form-edit-question'
         expect(page).to_not have_content question.title
         expect(page).to_not have_content question.body
         expect(page).to have_content 'new title'
@@ -76,7 +76,7 @@ feature 'User can edit his own question', "
     scenario "Can't edit question" do
       within '.question-data' do
         expect(page).to_not have_link 'Edit'
-        expect(page).to_not have_selector 'form'
+        expect(page).to_not have_selector 'form#form-edit-question'
       end
 
     end

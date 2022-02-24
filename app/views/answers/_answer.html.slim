@@ -12,7 +12,7 @@
     .comments-container
       div Comments:
       = render 'comments/list', comments: answer.comments, current_user: current_user
-      = render 'comments/form', comment: answer.comments.new, commentable: answer, current_user: current_user
+      = render 'comments/form', comment: @comment, commentable: answer, current_user: current_user
 
     -if current_user&.author_of?(question)
       = link_to 'Make answer best', mark_best_answer_path(answer), method: :patch, class: "set-best-answer-link #{'hidden' if answer.is_best}", remote: true 

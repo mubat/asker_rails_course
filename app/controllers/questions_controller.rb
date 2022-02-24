@@ -26,6 +26,7 @@ class QuestionsController < ApplicationController
   def show
     @answer = question.answers.new
     @answer.links.new
+    @comment = Comment.new
   end
 
   def edit; end

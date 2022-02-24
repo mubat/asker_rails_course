@@ -43,7 +43,7 @@ feature 'User can edit this answer', "
 
         expect(page).to_not have_content answer.body
         expect(page).to have_content 'some test answer'
-        expect(page).to_not have_selector 'textarea'
+        expect(page).to_not have_selector 'textarea[name="answer[body]"]'
       end
     end
 
@@ -57,7 +57,7 @@ feature 'User can edit this answer', "
         attach_file 'Files', ["#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Save'
 
-        expect(page).to_not have_selector 'form'
+        expect(page).to_not have_selector "form#edit-answer-#{answer.id}"
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
       end
@@ -98,7 +98,7 @@ feature 'User can edit this answer', "
       scenario "tries to edit other user's answer" do
         within ".answers #answer-#{answer_other_user.id}" do
           expect(page).to_not have_link 'Edit'
-          expect(page).to_not have_selector 'form'
+          expect(page).to_not have_selector "form#edit-answer-#{answer.id}"
         end
       end
 

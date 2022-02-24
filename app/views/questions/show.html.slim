@@ -13,7 +13,7 @@
   .comments-container
     div Comments:
     = render 'comments/list', comments: question.comments, current_user: current_user
-    = render 'comments/form', comment: question.comments.new, commentable: question, current_user: current_user
+    = render 'comments/form', comment: @comment, commentable: question, current_user: current_user
 
   -if current_user&.author_of?(question)
     = link_to 'Edit', '#', class: 'edit-question'

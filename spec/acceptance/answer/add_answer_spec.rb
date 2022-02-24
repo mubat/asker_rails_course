@@ -73,6 +73,7 @@ feature "Authorized user can add answer on the question's view", "
 
           Capybara.using_session('watcher') do
             within '.answers' do
+              save_screenshot 'answer_session.png'
               expect(page).to have_no_content 'Still no answer here'
               expect(page).to have_content 'Test answer'
               expect(page).to have_link 'rails_helper.rb'
