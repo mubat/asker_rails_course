@@ -1,5 +1,6 @@
 class Answer < ApplicationRecord
   include WithVotes
+  include WithComments
 
   belongs_to :question
   belongs_to :user

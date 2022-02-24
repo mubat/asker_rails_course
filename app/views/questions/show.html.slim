@@ -1,4 +1,4 @@
-.question-data
+.question-data id="question-#{question.id}" data-question-id="#{question.id  }"
   h1= question.title
   p= question.body
 
@@ -9,6 +9,11 @@
       = render partial: 'attachments/attachment', collection: question.files
 
   = render 'links/list', resource: question
+
+  .comments-container
+    div Comments:
+    = render 'comments/list', comments: question.comments, current_user: current_user
+    = render 'comments/form', comment: @comment, commentable: question, current_user: current_user
 
   -if current_user&.author_of?(question)
     = link_to 'Edit', '#', class: 'edit-question'

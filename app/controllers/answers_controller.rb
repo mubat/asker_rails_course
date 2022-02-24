@@ -3,9 +3,12 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!
 
+  after_action :publish_answer, only: :create
+
   def create
     @answer = question.answers.new(answer_params)
     @answer.user = current_user
+    @comment = current_user.comments.new
 
     answer.save
   end
@@ -33,6 +36,18 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def publish_answer
+    return unless answer.valid?
+    AnswersChannel.broadcast_to "question/#{answer.question.id}/answers",
+                                {
+                                  user_id: current_user.id,
+                                  body: ApplicationController.render(
+                                    partial: 'answers/answer',
+                                    locals: { answer: answer, question: question, current_user: nil }
+                                  )
+                                }
+  end
 
   helper_method :question, :answer
 
